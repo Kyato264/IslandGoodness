@@ -107,12 +107,51 @@ include("dbConn.php");
                     <a href="#condiments">Condiments</a>
                     <a href="#drink">Drinks</a>
                 </div>
+            </div>
         </div>
-    </div>
 
-    <div id="footer">
-        <h3>Island Goodness &copy; 2024</h3>
+        <footer class="site-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <h6>About</h6>
+                        <p class="text-justify">Island Goodness is dedicated to providing top-notch food and service, always accompanied by a warm smile. Our goal is to ensure that every customer enjoys high-quality cuisine and friendly hospitality.</p>
+                    </div>
+
+                    <div class="col-xs-6 col-md-3">
+                        <h6>Menu</h6>
+                        <ul class="footer-links">
+                            <li><a href="#">Soups</a></li>
+                            <li><a href="#">Lasagnas</a></li>
+                            <li><a href="#">Pizzas</a></li>
+                            <li><a href="#">Preserves</a></li>
+                            <li><a href="#">Condiments</a></li>
+                            <li><a href="#">Drinks</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-xs-6 col-md-3">
+                        <h6>Quick Links</h6>
+                        <ul class="footer-links">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Track Orders</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-sm-6 col-xs-12">
+                        <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
+                            <a href="#">Island Goodness</a>.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
     </div>
+    </footer>
     </div>
     <script src="script.js"></script>
 </body>

@@ -130,7 +130,7 @@ session_start();
       padding: 20px 20px 20px 20px;
     }
 
-    input[type="text"],
+    input[type="email"],
     input[type="password"] {
       width: 100%;
       padding: 12px 20px;
@@ -144,7 +144,7 @@ session_start();
       background-color: gainsboro;
     }
 
-    input[type="text"]:focus,
+    input[type="email"]:focus,
     input[type="password"]:focus {
       border: 2px rgb(	255, 210, 47) solid;
     }
@@ -330,7 +330,7 @@ session_start();
       <form action="loginProcessing.php" method="post">
         <div class="formCrt">
           <label for="email"><b>Email</b></label>
-          <input type="text" placeholder="Enter Email" name="email" />
+          <input type="email" placeholder="Enter Email" name="email" />
 
           <label for="psw"><b>Password</b></label>
           <input type="password" placeholder="Enter Password" name="psw" id="password" />
