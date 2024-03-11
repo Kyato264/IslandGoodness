@@ -13,13 +13,13 @@
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
     <link rel="shortcut icon" href=../images\IslandGoodnessLogoBlackNoWords.svg type="image/x-icon">
-    <title>Template</title>
+    <title>Staff Home</title>
 </head>
 
 <body>
     <div id="crt">
         <div id="header">
-        <button id="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <button id="menu-toggle" onclick="toggleSidebar()">☰</button>
             <div id="iconAndName">
                 <a id="iconAndNameLink" href="staffHome.php">
                     <img src="../images\IslandGoodnessLogoBlack.svg" width="55px">
@@ -28,77 +28,43 @@
 
             <div id="headerLinks">
                 <a href="staffHome.php">Home</a>
-                <a href="trackOrders.php">Track Orders</a>
-
-                <?php if (isset($_SESSION['Email'])) { ?>
-                    <a href="account.php">Account</a>
-                <?php } ?>
-
-                <?php if (!isset($_SESSION['Email'])) { ?>
-                    <div id="loginAndSignUp">
-                        <div id="login">
-                            <a href="login.php">Login</a>
-                        </div>
-
-                        <div id="signup">
-                            <a href="signup.php">Signup</a>
-                        </div>
-                    </div>
-                <?php } ?>
-
-                <a href="cart.php"><img src="images/cart.svg" alt="cart" width="20px">
-                    0
-                </a>
+                <a href="updateMenu.php">Update Menu</a>
+                <a href="#">Logout</a>
 
             </div>
         </div>
 
         <div id="sidebar">
-                <div class="sideTop">
+            <div class="sideTop">
 
-                    <div class="userInfo">
-                        <div class="userNameCrt">
-                            <p><b>Hi there,</b></p>
-                            <h2>
-                                <?php if (isset($_SESSION['FirstName'])) { 
-                                   // echo $_SESSION['FirstName'];
-                                } else { ?>
+                <div class="userInfo">
+                    <div class="userNameCrt">
+                        <p><b>Hi there,</b></p>
+                        <h2>
+                            <?php if (isset($_SESSION['UserName'])) {
+                                echo $_SESSION['FirstName'];
+                            } else { ?>
 
                                 Guest User
 
-                                <?php } ?>
-                            </h2>
-                        </div>
+                            <?php } ?>
+                        </h2>
                     </div>
-
-                    <button id="menu-Close" onclick="toggleClose()">&#10006;</button>
                 </div>
 
-                <div class="sidebarLinks">
-                    <a href="staffHome.php">Home</a>
-                    <a href="trackOrders.php">Track Orders</a>
-
-                    <?php if (isset($_SESSION['Email'])) { ?>
-                        <a href="account.php">Account</a>
-                    <?php } ?>
-
-                    <?php if (!isset($_SESSION['Email'])) { ?>
-                        <div id="loginAndSignUp">
-                            <div id="login">
-                                <a href="login.php">Login</a>
-                            </div>
-
-                            <div id="signup">
-                                <a href="signup.php">Signup</a>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
+                <button id="menu-Close" onclick="toggleClose()">&#10006;</button>
             </div>
+
+            <div class="sidebarLinks">
+                <a href="staffHome.php">Home</a>
+                <a href="updateMenu.php">Update Menu</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
 
 
         <div id="content">
-           
+
         </div>
 
         <footer class="site-footer">
@@ -106,7 +72,9 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <h6>About</h6>
-                        <p class="text-justify">Island Goodness is dedicated to providing top-notch food and service, always accompanied by a warm smile. Our goal is to ensure that every customer enjoys high-quality cuisine and friendly hospitality.</p>
+                        <p class="text-justify">Island Goodness is dedicated to providing top-notch food and service,
+                            always accompanied by a warm smile. Our goal is to ensure that every customer enjoys
+                            high-quality cuisine and friendly hospitality.</p>
                     </div>
 
                     <div class="col-xs-6 col-md-3">
