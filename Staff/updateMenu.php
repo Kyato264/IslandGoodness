@@ -63,6 +63,22 @@
             transform: translate(0px, 5px);
         }
 
+        .error {
+            background-color: #F2DEDE;
+            color: #A94442;
+            padding: 10px;
+            width: 95%;
+            border-radius: 5px;
+        }
+
+        .pass {
+            background-color: #def2de;
+            color: #42a944;
+            padding: 10px;
+            width: 95%;
+            border-radius: 5px;
+        }
+
         #formCrt form {
             width: 80%;
             display: flex;
@@ -244,7 +260,19 @@
                     <h2 onclick="toggleDelete()">Delete</h2>
                 </div>
 
-                <form action="" method="post" id="createForm">
+                <?php if (isset($_GET['error'])) { ?>
+                    <p class="error">
+                        <?php echo $_GET['error']; ?>
+                    </p>
+                <?php } ?>
+
+                <?php if (isset($_GET['pass'])) { ?>
+                    <p class="pass">
+                        <?php echo $_GET['pass']; ?>
+                    </p>
+                <?php } ?>
+
+                <form action="createProcessing.php" method="post" id="createForm">
                     <h1 style="text-align: center;">CREATE</h1>
                     <div class="form-row">
                         <div class="input-data">
@@ -279,7 +307,7 @@
                     </div>
                 </form>
 
-                <form style="display: none;" action="" method="post" id="updateForm">
+                <form style="display: none;" action="updateProcessing.php" method="post" id="updateForm">
                     <h1 style="text-align: center;">UPDATE</h1>
                     <div class="form-row">
                         <div class="input-data">
@@ -322,7 +350,7 @@
                     </div>
                 </form>
 
-                <form style="display: none;" action="" method="post" id="deleteForm">
+                <form style="display: none;" action="deleteProcessing.php" method="post" id="deleteForm">
                     <h1 style="text-align: center;">DELETE</h1>
                     <div class="form-row">
                         <div class="input-data">
@@ -389,9 +417,9 @@
     </div>
     <script src="../script.js"></script>
     <script>
-        const createForm =document.getElementById("createForm");
-        const updateForm =document.getElementById("updateForm");
-        const deleteForm =document.getElementById("deleteForm");
+        const createForm = document.getElementById("createForm");
+        const updateForm = document.getElementById("updateForm");
+        const deleteForm = document.getElementById("deleteForm");
 
         function toggleUpdate() {
             createForm.style.display = "none";
