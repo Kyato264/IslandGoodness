@@ -35,6 +35,114 @@ html {
   transition: 0.5s ease;
 }
 
+#menu-toggle {
+    display: none;
+    background: none;
+      color: inherit;
+      border: none;
+      padding: 0;
+      font: inherit;
+      cursor: pointer;
+      outline: inherit;
+    color: black;
+    padding: 5px;
+    border: none;
+    font-size: 1.5em;
+    width: 5rem;
+    margin: 0 3rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  }
+  
+  #menu-toggle:hover, #menu-Close:hover {
+    background-color: black;
+    color: white;
+  }
+  
+  #menu-toggle:active, #menu-Close:active {
+    transform: translate(0px, 5px);
+    
+  }
+
+  #sidebar {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+    height: 100vh;
+    background-color: #ffd22f;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 100;
+    padding: 20px;
+  }
+  
+  .sideTop {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .userNameCrt {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .userNameCrt h2 {
+    text-align: center;
+  }
+  
+  #menu-Close {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    color: black;
+    padding: 5px;
+    border: none;
+    font-size: 1.5em;
+    width: 15rem;
+  }
+  
+  .logo {
+    text-align: center;
+  }
+  
+  .sidebarLinks,
+  .sidebarAdmin {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+    padding: 0rem 1rem 0rem 2rem;
+  }
+  
+  
+  .sidebarLink {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 10px;
+    padding: 12px;
+    transition: 0.1s ease-in-out;
+    width: 100%;
+    text-decoration: none;
+    color: white;
+  }
+  
+  .sidebarLink:hover {
+    border: 3px solid white;
+  }
+  
+  .sidebarLink:active {
+    transform: translate(0px, 5px);
+  }
+
 #iconAndName {
   display: flex;
   border: 2px solid black;
@@ -56,7 +164,9 @@ html {
 }
 
 #headerLinks a,
-a:visited {
+#headerLinks a:visited,
+.sidebarLinks a,
+.sidebarLinks a:visited {
   text-decoration: none;
   color: black;
   font-weight: bold;
@@ -65,11 +175,13 @@ a:visited {
   transition: 0.2s ease-in-out;
 }
 
-#headerLinks a:hover {
+#headerLinks a:hover,
+.sidebarLinks a:hover {
   border: solid black;
 }
 
-#headerLinks a:active {
+#headerLinks a:active
+.sidebarLinks a:active {
   transform: translate(0px, 5px);
 }
 
@@ -441,16 +553,20 @@ a:visited {
 }
 
 @media screen and (max-width: 720px) {
-  #headerText {
+  #headerLinks {
     display: none;
   }
 
-  #titleItems {
-    display: none;
+  #menu-toggle {
+    display: inline;
   }
 
   #title {
-    flex-direction: column;
+    display: none;
+  }
+
+  #menuLinks {
+    flex-wrap: wrap;
   }
 
   #title img {
@@ -460,4 +576,19 @@ a:visited {
   #titleText {
     width: auto;
   }
+
+  #loginAndSignUp {
+    flex-direction: column;
+    align-items: baseline;
+    gap: 0;
+  }
+
+  #login, #signup {
+    width: 100%;
+  }
+  #login a, #signup a {
+    display: inline-block;
+    width: 100%;
+  }
+
 }

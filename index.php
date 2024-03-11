@@ -24,6 +24,7 @@ include("dbConn.php");
 <body>
     <div id="crt">
         <div id="header">
+            <button id="menu-toggle" onclick="toggleSidebar()">☰</button>
             <div id="iconAndName">
                 <a id="iconAndNameLink" href="index.php">
                     <img src="images\IslandGoodnessLogoBlack.svg" width="55px">
@@ -56,6 +57,49 @@ include("dbConn.php");
 
             </div>
         </div>
+
+        <div id="sidebar">
+                <div class="sideTop">
+
+                    <div class="userInfo">
+                        <div class="userNameCrt">
+                            <p><b>Hi there,</b></p>
+                            <h2>
+                                <?php if (isset($_SESSION['FirstName'])) { 
+                                   // echo $_SESSION['FirstName'];
+                                } else { ?>
+
+                                Guest User
+
+                                <?php } ?>
+                            </h2>
+                        </div>
+                    </div>
+
+                    <button id="menu-Close" onclick="toggleClose()">&#10006;</button>
+                </div>
+
+                <div class="sidebarLinks">
+                    <a href="index.php">Home</a>
+                    <a href="trackOrders.php">Track Orders</a>
+
+                    <?php if (isset($_SESSION['Email'])) { ?>
+                        <a href="account.php">Account</a>
+                    <?php } ?>
+
+                    <?php if (!isset($_SESSION['Email'])) { ?>
+                        <div id="loginAndSignUp">
+                            <div id="login">
+                                <a href="login.php">Login</a>
+                            </div>
+
+                            <div id="signup">
+                                <a href="signup.php">Signup</a>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
 
 
         <div id="content">
@@ -115,7 +159,9 @@ include("dbConn.php");
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <h6>About</h6>
-                        <p class="text-justify">Island Goodness is dedicated to providing top-notch food and service, always accompanied by a warm smile. Our goal is to ensure that every customer enjoys high-quality cuisine and friendly hospitality.</p>
+                        <p class="text-justify">Island Goodness is dedicated to providing top-notch food and service,
+                            always accompanied by a warm smile. Our goal is to ensure that every customer enjoys
+                            high-quality cuisine and friendly hospitality.</p>
                     </div>
 
                     <div class="col-xs-6 col-md-3">

@@ -52,6 +52,49 @@
             </div>
         </div>
 
+        <div id="sidebar">
+                <div class="sideTop">
+
+                    <div class="userInfo">
+                        <div class="userNameCrt">
+                            <p><b>Hi there,</b></p>
+                            <h2>
+                                <?php if (isset($_SESSION['FirstName'])) { 
+                                   // echo $_SESSION['FirstName'];
+                                } else { ?>
+
+                                Guest User
+
+                                <?php } ?>
+                            </h2>
+                        </div>
+                    </div>
+
+                    <button id="menu-Close" onclick="toggleClose()">&#10006;</button>
+                </div>
+
+                <div class="sidebarLinks">
+                    <a href="index.php">Home</a>
+                    <a href="trackOrders.php">Track Orders</a>
+
+                    <?php if (isset($_SESSION['Email'])) { ?>
+                        <a href="account.php">Account</a>
+                    <?php } ?>
+
+                    <?php if (!isset($_SESSION['Email'])) { ?>
+                        <div id="loginAndSignUp">
+                            <div id="login">
+                                <a href="login.php">Login</a>
+                            </div>
+
+                            <div id="signup">
+                                <a href="signup.php">Signup</a>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+
 
         <div id="content">
            
