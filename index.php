@@ -181,6 +181,9 @@ include("dbConn.php");
                         <ul class="footer-links">
                             <li><a href="#">Home</a></li>
                             <li><a href="#">Track Orders</a></li>
+                            <li><a href="Staff/staffLogin.php">Staff Portal</a></li>
+                            <li><a href="index.php">Customer Portal</a></li>
+
                         </ul>
                     </div>
                 </div>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../styles.css">
 
     <!--FONTS-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
-    <link rel="shortcut icon" href=images\IslandGoodnessLogoBlackNoWords.svg type="image/x-icon">
+    <link rel="shortcut icon" href=../images\IslandGoodnessLogoBlackNoWords.svg type="image/x-icon">
     <title>Template</title>
 </head>
 
@@ -21,13 +21,13 @@
         <div id="header">
         <button id="menu-toggle" onclick="toggleSidebar()">☰</button>
             <div id="iconAndName">
-                <a id="iconAndNameLink" href="index.php">
-                    <img src="images\IslandGoodnessLogoBlack.svg" width="55px">
+                <a id="iconAndNameLink" href="staffHome.php">
+                    <img src="../images\IslandGoodnessLogoBlack.svg" width="55px">
                 </a>
             </div>
 
             <div id="headerLinks">
-                <a href="index.php">Home</a>
+                <a href="staffHome.php">Home</a>
                 <a href="trackOrders.php">Track Orders</a>
 
                 <?php if (isset($_SESSION['Email'])) { ?>
@@ -75,7 +75,7 @@
                 </div>
 
                 <div class="sidebarLinks">
-                    <a href="index.php">Home</a>
+                    <a href="staffHome.php">Home</a>
                     <a href="trackOrders.php">Track Orders</a>
 
                     <?php if (isset($_SESSION['Email'])) { ?>
@@ -127,7 +127,7 @@
                             <li><a href="#">Home</a></li>
                             <li><a href="#">Track Orders</a></li>
                             <li><a href="Staff/staffLogin.php">Staff Portal</a></li>
-                            <li><a href="index.php">Customer Portal</a></li>
+                            <li><a href="../index.php">Customer Portal</a></li>
                         </ul>
                     </div>
                 </div>
@@ -146,7 +146,7 @@
     </div>
     </footer>
     </div>
-    <script src="script.js"></script>
+    <script src="../script.js"></script>
 </body>
 
 </html>
