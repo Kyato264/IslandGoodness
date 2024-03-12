@@ -221,11 +221,11 @@ html {
 
 #title {
   width: 100%;
+  height: 400px;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   background-color: #ffd22f;
-  padding: 10px;
 }
 
 #toMenu {
@@ -235,6 +235,7 @@ html {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  padding: 10px;
 }
 
 #toMenu h1 {
@@ -260,6 +261,16 @@ a:visited {
 
 #toMenu a:active {
   transform: translate(0px, 5px);
+}
+
+#titleImg {
+  width: 100%;
+  height: 100%;
+}
+
+#titleImg img {
+  height: 100%;
+  width: 100%;
 }
 
 #titleItems {
@@ -318,6 +329,7 @@ a:visited {
   width: 100%;
   flex-direction: column;
   align-items: center;
+  padding: 20px 0px;
 }
 
 #menuHeader {
@@ -345,7 +357,7 @@ a:visited {
   border-bottom: 3px solid #ffd22f;
 }
 
-#menuLinks a,
+#menuLinks p,
 a:visited {
   text-decoration: none;
   color: black;
@@ -355,12 +367,87 @@ a:visited {
   transition: 0.2s ease-in-out;
 }
 
-#menuLinks a:hover {
+#menuLinks p:hover {
   border: solid black;
+  cursor: pointer;
 }
 
-#menuLinks a:active {
+#menuLinks p:active {
   transform: translate(0px, 5px);
+}
+
+.menuSection {
+  width: 100%;
+}
+
+#items {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+#menuItem {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 260px;
+  height: 295px;
+  box-shadow: 0rem 0.25rem 0.5625rem 0rem rgba(0, 0, 0, 0.15);;
+  transition: 0.2s ease-in-out;
+}
+
+#menuItem:hover {
+  box-shadow: rgba(255,210,47, 0.4) -5px 5px, rgba(255,219,88,0.3) -10px 10px;
+}
+
+#menuItemImg {
+  width: 100%;
+}
+
+#menuItemImg img {
+  width: 100%;
+  height: calc(136.126px);
+}
+
+#menuItemInfo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#menuItemInfo h3 {
+  text-transform: uppercase;
+  padding: 0px 20px;
+  text-align: center;
+}
+
+#addToCart {
+  padding: 5px 30px;
+  background-color: #ffd22f;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.2s ease-in-out;
+}
+
+#addToCart:hover {
+  background-color: #cca825;
+}
+
+#addToCart:active {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+#addToCart img {
+  width: 30px;
+  height: 30px;
 }
 
 /* FOOTER */
@@ -593,6 +680,14 @@ a:visited {
   #login a, #signup a {
     display: inline-block;
     width: 100%;
+  }
+
+  #menuItem {
+    width: 160px;
+  }
+
+  #menuItemInfo {
+    padding-bottom: 5px;
   }
 
 }

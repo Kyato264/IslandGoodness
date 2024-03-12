@@ -171,6 +171,45 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             transform: scale(1);
         }
 
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border: 0;
+            outline: 0;
+            font: inherit;
+            width: 100%;
+            height: 3em;
+            padding: 0 4em 0 1em;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center/1.4em, linear-gradient(to left, rgba(255, 210, 47, 1) 3em, rgba(86.3, 86.3, 86.3, .2) 3em);
+            color: black;
+            border-radius: 24px;
+            cursor: pointer;
+        }
+
+        select option {
+            color: inherit;
+            background-color: rgba(255, 210, 47, .7);
+        }
+
+        select:focus {
+            outline: none;
+        }
+
+        select::-ms-expand {
+            display: none;
+        }
+
+        select:required:invalid {
+            color: gray;
+        }
+
+        option[value=""][disabled] {
+            display: none;
+        }
+
         .formBtns {
             width: 100%;
             display: flex;
@@ -278,7 +317,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     </p>
                 <?php } ?>
 
-                <form action="createProcessing.php" method="post" id="createForm">
+                <form action="createProcessing.php" method="post" id="createForm" enctype="multipart/form-data">
                     <h1 style="text-align: center;">CREATE</h1>
                     <div class="form-row">
                         <div class="input-data">
@@ -304,8 +343,20 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                         </div>
                     </div>
 
+                    <label for="category">Select Category</label>
+                        <select name="category" id="position" required>
+                            <option value="" disabled selected>--Select Category--</option>
+                            <option value="soup">Soup</option>
+                            <option value="lasagna">Lasagnas</option>
+                            <option value="pizza">Pizzas</option>
+                            <option value="preserve">Preserves</option>
+                            <option value="condiment">Condiments</option>
+                            <option value="drink">Drinks</option>
+                        </select>
+
+
                     <label for="image">Item Image</label>
-                    <input type="file" name="image">
+                    <input type="file" name="image" accept="image/*">
 
                     <div class="formBtns">
                         <input type="submit" value="Create">
@@ -313,7 +364,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     </div>
                 </form>
 
-                <form style="display: none;" action="updateProcessing.php" method="post" id="updateForm">
+                <form style="display: none;" action="updateProcessing.php" method="post" id="updateForm" enctype="multipart/form-data">
                     <h1 style="text-align: center;">UPDATE</h1>
                     <div class="form-row">
                         <div class="input-data">
@@ -348,7 +399,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     </div>
 
                     <label for="image">Item Image</label>
-                    <input type="file" name="image">
+                    <input type="file" name="image" accept="image/*">
 
                     <div class="formBtns">
                         <input type="submit" value="Update">

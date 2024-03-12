@@ -7,6 +7,8 @@
     $newName = $_POST['newName'];
     $newDescription = $_POST['newDescription'];
     $newPrice = $_POST['newPrice'];
+    $imageTemp = file_get_contents($_FILES["image"]["tmp_name"]);
+    $image = base64_encode($imageTemp); // Convert binary data to base64
 
     if(empty($cname)) {
         header("Location: updateMenu.php?error=Please enter an item name");
@@ -32,7 +34,7 @@
     }
 
     $sql = "UPDATE fooditem
-            SET Name = '$newName', Description = '$newDescription', Price = '$newPrice'
+            SET Name = '$newName', Description = '$newDescription', Price = '$newPrice', Image = '$image'
             WHERE Name = '$cname'";
     mysqli_query($conn, $sql);
     header("Location: updateMenu.php?pass=Item updated");

@@ -59,47 +59,47 @@ include("dbConn.php");
         </div>
 
         <div id="sidebar">
-                <div class="sideTop">
+            <div class="sideTop">
 
-                    <div class="userInfo">
-                        <div class="userNameCrt">
-                            <p><b>Hi there,</b></p>
-                            <h2>
-                                <?php if (isset($_SESSION['FirstName'])) { 
-                                   // echo $_SESSION['FirstName'];
-                                } else { ?>
+                <div class="userInfo">
+                    <div class="userNameCrt">
+                        <p><b>Hi there,</b></p>
+                        <h2>
+                            <?php if (isset($_SESSION['FirstName'])) {
+                            // echo $_SESSION['FirstName'];
+                        } else { ?>
 
                                 Guest User
 
-                                <?php } ?>
-                            </h2>
+                            <?php } ?>
+                        </h2>
+                    </div>
+                </div>
+
+                <button id="menu-Close" onclick="toggleClose()">&#10006;</button>
+            </div>
+
+            <div class="sidebarLinks">
+                <a href="index.php">Home</a>
+                <a href="trackOrders.php">Track Orders</a>
+
+                <?php if (isset($_SESSION['Email'])) { ?>
+                    <a href="account.php">Account</a>
+                <?php } ?>
+
+                <?php if (!isset($_SESSION['Email'])) { ?>
+                    <div id="loginAndSignUp">
+                        <div id="login">
+                            <a href="login.php">Login</a>
+                        </div>
+
+                        <div id="signup">
+                            <a href="signup.php">Signup</a>
                         </div>
                     </div>
-
-                    <button id="menu-Close" onclick="toggleClose()">&#10006;</button>
-                </div>
-
-                <div class="sidebarLinks">
-                    <a href="index.php">Home</a>
-                    <a href="trackOrders.php">Track Orders</a>
-
-                    <?php if (isset($_SESSION['Email'])) { ?>
-                        <a href="account.php">Account</a>
-                    <?php } ?>
-
-                    <?php if (!isset($_SESSION['Email'])) { ?>
-                        <div id="loginAndSignUp">
-                            <div id="login">
-                                <a href="login.php">Login</a>
-                            </div>
-
-                            <div id="signup">
-                                <a href="signup.php">Signup</a>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
+                <?php } ?>
             </div>
+        </div>
 
 
         <div id="content">
@@ -109,31 +109,9 @@ include("dbConn.php");
                     <a href="#menu">VIEW FULL MENU</a>
                 </div>
 
-                <div id="titleItems">
-                    <div id="titleItemCard">
-                        <img src="images\burger.jpg">
-                        <div id="titleItemCardInfo">
-                            <h3>Burger</h3>
-                            <p>This is very good burger you should buy!</p>
-                        </div>
-                    </div>
 
-                    <div id="titleItemCard">
-                        <img src="images\burger.jpg">
-                        <div id="titleItemCardInfo">
-                            <h3>Burger</h3>
-                            <p>This is very good burger you should buy!</p>
-                        </div>
-                    </div>
-
-                    <div id="titleItemCard">
-                        <img src="images\burger.jpg">
-                        <div id="titleItemCardInfo">
-                            <h3>Burger</h3>
-                            <p>This is very good burger you should buy!</p>
-                        </div>
-                    </div>
-
+                <div id="titleImg">
+                    <img src="Images/titleImage.png" alt="">
                 </div>
             </div>
 
@@ -144,12 +122,252 @@ include("dbConn.php");
                 </div>
 
                 <div id="menuLinks">
-                    <a href="#soup">Soups</a>
-                    <a href="#lasagna">Lasagnas</a>
-                    <a href="#pizza">Pizzas</a>
-                    <a href="#preserves">Preserves</a>
-                    <a href="#condiments">Condiments</a>
-                    <a href="#drink">Drinks</a>
+                    <p  onclick=toggleSoup()>Soups</p>
+                    <p  onclick=toggleLasagna()>Lasagnas</p>
+                    <p  onclick=togglePizza()>Pizzas</p>
+                    <p  onclick=togglePreserve()>Preserves</p>
+                    <p  onclick=toggleCondiment()>Condiments</p>
+                    <p  onclick=toggleDrink()>Drinks</p>
+                </div>
+
+                <div id="soup" class="menuSection">
+                    <div id="menuHeader">
+                        <h2>SOUPS</h2>
+                        <hr>
+                    </div>
+                    <div id="items">
+                        <?php
+                        $query = "SELECT * FROM fooditem WHERE Category = 'soup'";
+                        $result = $conn->query($query);
+
+                        // Check if query executed successfully
+                        if (!$result) {
+                            echo "Error: " . $mysqli->error;
+                        } else {
+                            // Iterate through the result set
+                            while ($row = $result->fetch_assoc()) { ?>
+                                <div id="menuItem">
+                                    <div id="menuItemImg">
+                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
+                                            alt="<?php echo $row['Name']; ?>">
+                                    </div>
+
+                                    <div id="menuItemInfo">
+                                        <h3>
+                                            <?php echo $row["Name"]; ?>
+                                        </h3>
+
+                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
+                                            <?php echo $row['Price']; ?>
+                                        </h4>
+
+                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
+                                    </div>
+                                </div>
+                            <?php }
+                        }
+                        ?>
+                    </div>
+                </div>
+
+                <div id="lasagna" class="menuSection">
+                    <div id="menuHeader">
+                        <h2>LASAGNAS</h2>
+                        <hr>
+                    </div>
+                    <div id="items">
+                        <?php
+                        $query = "SELECT * FROM fooditem WHERE Category = 'lasagna'";
+                        $result = $conn->query($query);
+
+                        // Check if query executed successfully
+                        if (!$result) {
+                            echo "Error: " . $mysqli->error;
+                        } else {
+                            // Iterate through the result set
+                            while ($row = $result->fetch_assoc()) { ?>
+                                <div id="menuItem">
+                                    <div id="menuItemImg">
+                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
+                                            alt="<?php echo $row['Name']; ?>">
+                                    </div>
+
+                                    <div id="menuItemInfo">
+                                        <h3>
+                                            <?php echo $row["Name"]; ?>
+                                        </h3>
+
+                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
+                                            <?php echo $row['Price']; ?>
+                                        </h4>
+
+                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
+                                    </div>
+                                </div>
+                            <?php }
+                        }
+                        ?>
+                    </div>
+                </div>
+
+                <div id="pizza" class="menuSection">
+                    <div id="menuHeader">
+                        <h2>PIZZAS</h2>
+                        <hr>
+                    </div>
+                    <div id="items">
+                        <?php
+                        $query = "SELECT * FROM fooditem WHERE Category = 'pizza'";
+                        $result = $conn->query($query);
+
+                        // Check if query executed successfully
+                        if (!$result) {
+                            echo "Error: " . $mysqli->error;
+                        } else {
+                            // Iterate through the result set
+                            while ($row = $result->fetch_assoc()) { ?>
+                                <div id="menuItem">
+                                    <div id="menuItemImg">
+                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
+                                            alt="<?php echo $row['Name']; ?>">
+                                    </div>
+
+                                    <div id="menuItemInfo">
+                                        <h3>
+                                            <?php echo $row["Name"]; ?>
+                                        </h3>
+
+                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
+                                            <?php echo $row['Price']; ?>
+                                        </h4>
+
+                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
+                                    </div>
+                                </div>
+                            <?php }
+                        }
+                        ?>
+                    </div>
+                </div>
+
+                <div id="preserve" class="menuSection">
+                    <div id="menuHeader">
+                        <h2>PRESERVES</h2>
+                        <hr>
+                    </div>
+                    <div id="items">
+                        <?php
+                        $query = "SELECT * FROM fooditem WHERE Category = 'preserves'";
+                        $result = $conn->query($query);
+
+                        // Check if query executed successfully
+                        if (!$result) {
+                            echo "Error: " . $mysqli->error;
+                        } else {
+                            // Iterate through the result set
+                            while ($row = $result->fetch_assoc()) { ?>
+                                <div id="menuItem">
+                                    <div id="menuItemImg">
+                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
+                                            alt="<?php echo $row['Name']; ?>">
+                                    </div>
+
+                                    <div id="menuItemInfo">
+                                        <h3>
+                                            <?php echo $row["Name"]; ?>
+                                        </h3>
+
+                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
+                                            <?php echo $row['Price']; ?>
+                                        </h4>
+
+                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
+                                    </div>
+                                </div>
+                            <?php }
+                        }
+                        ?>
+                    </div>
+                </div>
+
+                <div id="condiment" class="menuSection">
+                    <div id="menuHeader">
+                        <h2>CONDIMENTS</h2>
+                        <hr>
+                    </div>
+                    <div id="items">
+                        <?php
+                        $query = "SELECT * FROM fooditem WHERE Category = 'condiment'";
+                        $result = $conn->query($query);
+
+                        // Check if query executed successfully
+                        if (!$result) {
+                            echo "Error: " . $mysqli->error;
+                        } else {
+                            // Iterate through the result set
+                            while ($row = $result->fetch_assoc()) { ?>
+                                <div id="menuItem">
+                                    <div id="menuItemImg">
+                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
+                                            alt="<?php echo $row['Name']; ?>">
+                                    </div>
+
+                                    <div id="menuItemInfo">
+                                        <h3>
+                                            <?php echo $row["Name"]; ?>
+                                        </h3>
+
+                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
+                                            <?php echo $row['Price']; ?>
+                                        </h4>
+
+                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
+                                    </div>
+                                </div>
+                            <?php }
+                        }
+                        ?>
+                    </div>
+                </div>
+
+                <div id="drink" class="menuSection">
+                    <div id="menuHeader">
+                        <h2>DRINKS</h2>
+                        <hr>
+                    </div>
+                    <div id="items">
+                        <?php
+                        $query = "SELECT * FROM fooditem WHERE Category = 'drink'";
+                        $result = $conn->query($query);
+
+                        // Check if query executed successfully
+                        if (!$result) {
+                            echo "Error: " . $mysqli->error;
+                        } else {
+                            // Iterate through the result set
+                            while ($row = $result->fetch_assoc()) { ?>
+                                <div id="menuItem">
+                                    <div id="menuItemImg">
+                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
+                                            alt="<?php echo $row['Name']; ?>">
+                                    </div>
+
+                                    <div id="menuItemInfo">
+                                        <h3>
+                                            <?php echo $row["Name"]; ?>
+                                        </h3>
+
+                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
+                                            <?php echo $row['Price']; ?>
+                                        </h4>
+
+                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
+                                    </div>
+                                </div>
+                            <?php }
+                        }
+                        ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -203,6 +421,68 @@ include("dbConn.php");
     </footer>
     </div>
     <script src="script.js"></script>
+    <script>
+        const soup = document.getElementById("soup");
+        const lasagna = document.getElementById("lasagna");
+        const pizza = document.getElementById("pizza");
+        const preserve = document.getElementById("preserve");
+        const condiment = document.getElementById("condiment");
+        const drink = document.getElementById("drink");
+
+        function toggleSoup() {
+            soup.style.display = "block"
+            lasagna.style.display = "none"
+            pizza.style.display = "none"
+            preserve.style.display = "none"
+            condiment.style.display = "none"
+            drink.style.display = "none"
+        }
+
+        function toggleLasagna() {
+            soup.style.display = "none"
+            lasagna.style.display = "block"
+            pizza.style.display = "none"
+            preserve.style.display = "none"
+            condiment.style.display = "none"
+            drink.style.display = "none"
+        }
+
+        function togglePizza() {
+            soup.style.display = "none"
+            lasagna.style.display = "none"
+            pizza.style.display = "block"
+            preserve.style.display = "none"
+            condiment.style.display = "none"
+            drink.style.display = "none"
+        }
+
+        function togglePreserve() {
+            soup.style.display = "none"
+            lasagna.style.display = "none"
+            pizza.style.display = "none"
+            preserve.style.display = "block"
+            condiment.style.display = "none"
+            drink.style.display = "none"
+        }
+
+        function toggleCondiment() {
+            soup.style.display = "none"
+            lasagna.style.display = "none"
+            pizza.style.display = "none"
+            preserve.style.display = "none"
+            condiment.style.display = "block"
+            drink.style.display = "none"
+        }
+
+        function toggleDrink() {
+            soup.style.display = "none"
+            lasagna.style.display = "none"
+            pizza.style.display = "none"
+            preserve.style.display = "none"
+            condiment.style.display = "none"
+            drink.style.display = "block"
+        }
+    </script>
 </body>
 
 </html>
