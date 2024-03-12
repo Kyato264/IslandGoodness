@@ -1,3 +1,9 @@
+<?php
+session_start();
+
+if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
+    ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -218,7 +224,7 @@
             <div id="headerLinks">
                 <a href="staffHome.php">Home</a>
                 <a href="updateMenu.php">Update Menu</a>
-                <a href="#">Logout</a>
+                <a href="../customerPortal.php">Logout</a>
 
             </div>
         </div>
@@ -247,7 +253,7 @@
             <div class="sidebarLinks">
                 <a href="staffHome.php">Home</a>
                 <a href="updateMenu.php">Update Menu</a>
-                <a href="#">Logout</a>
+                <a href="../customerPortal.php">Logout</a>
             </div>
         </div>
 
@@ -396,7 +402,7 @@
                             <li><a href="#">Home</a></li>
                             <li><a href="#">Track Orders</a></li>
                             <li><a href="Staff/staffLogin.php">Staff Portal</a></li>
-                            <li><a href="../index.php">Customer Portal</a></li>
+                            <li><a href="../customerPortal.php">Customer Portal</a></li>
                         </ul>
                     </div>
                 </div>
@@ -442,3 +448,10 @@
 </body>
 
 </html>
+
+<?php
+} else {
+    header("Location: staffLogin.php");
+    exit();
+}
+?>
