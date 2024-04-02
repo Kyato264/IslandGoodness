@@ -317,7 +317,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     </p>
                 <?php } ?>
 
-                <form action="createProcessing.php" method="post" id="createForm" enctype="multipart/form-data">
+                <form action="createProcessing.php" method="post" id="createForm" enctype="multipart/form-data" autocomplete="off">
                     <h1 style="text-align: center;">CREATE</h1>
                     <div class="form-row">
                         <div class="input-data">
@@ -344,7 +344,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     </div>
 
                     <label for="category">Select Category</label>
-                        <select name="category" id="position" required>
+                        <select name="category" id="position">
                             <option value="" disabled selected>--Select Category--</option>
                             <option value="soup">Soup</option>
                             <option value="lasagna">Lasagnas</option>
@@ -364,7 +364,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     </div>
                 </form>
 
-                <form style="display: none;" action="updateProcessing.php" method="post" id="updateForm" enctype="multipart/form-data">
+                <form style="display: none;" action="updateProcessing.php" method="post" id="updateForm" enctype="multipart/form-data" autocomplete="off">
                     <h1 style="text-align: center;">UPDATE</h1>
                     <div class="form-row">
                         <div class="input-data">
@@ -407,7 +407,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     </div>
                 </form>
 
-                <form style="display: none;" action="deleteProcessing.php" method="post" id="deleteForm">
+                <form style="display: none;" action="deleteProcessing.php" method="post" id="deleteForm" autocomplete="off">
                     <h1 style="text-align: center;">DELETE</h1>
                     <div class="form-row">
                         <div class="input-data">

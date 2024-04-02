@@ -73,7 +73,7 @@ if (isset($_POST['fname']) &&
 
     is_valid_password($pass);
 
-    $user_check_query = "SELECT * FROM customers WHERE Email='$email' LIMIT 1";
+    $user_check_query = "SELECT * FROM customer WHERE Email='$email' LIMIT 1";
     $result = mysqli_query($conn, $user_check_query);
     $user = mysqli_fetch_assoc($result);
 
@@ -83,7 +83,7 @@ if (isset($_POST['fname']) &&
         exit();
     }
 
-    $sql = "INSERT INTO customers (FirstName, LastName, Email, PhoneNo, Password) VALUES ('$fname', '$lname', '$email', '$phoneNo', '$pass')";
+    $sql = "INSERT INTO customer (FirstName, LastName, Email, PhoneNo, Password) VALUES ('$fname', '$lname', '$email', '$phoneNo', '$pass')";
     mysqli_query($conn, $sql);
     header("Location: login.php?pass=New user created!");
     exit();

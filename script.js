@@ -3,6 +3,7 @@ const sidebar = document.getElementById("sidebar");
 const main = document.getElementById("crt");
 const close = document.getElementById("menu-Close");
 
+//window event to change background color of the header
 window.addEventListener('scroll', () => {
     const verticalScrollPx = window.scrollY || window.pageYOffset;
   

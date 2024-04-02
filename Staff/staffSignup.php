@@ -358,7 +358,7 @@
             <?php } ?>
 
             <div class="registerForm">
-                <form action="staffSignupProcessing.php" method="post">
+                <form action="staffSignupProcessing.php" method="post" autocomplete="off">
                     <div class="formCrt">
                         <label for="uname"><b>Username</b></label>
                         <input type="text" placeholder="Enter Username" name="uname" />

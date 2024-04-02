@@ -1,4 +1,5 @@
 <?php
+//CONNECTION TO THE DATABASE DON'T TOUCH!!!
 $servername = "localhost";
 $username = "root";
 $password = "";

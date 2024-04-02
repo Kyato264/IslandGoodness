@@ -406,7 +406,7 @@
             <?php } ?>
 
             <div class="registerForm">
-                <form action="signupProcessing.php" method="post">
+                <form action="signupProcessing.php" method="post" autocomplete="off">
                     <div class="formCrt">
                         <div class="inputCrt">
                             <div class="col">
