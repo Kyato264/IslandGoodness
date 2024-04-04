@@ -347,7 +347,7 @@
     <div class="crt">
         <div class="registerCrt" id="con2">
             <div class="registerHead">
-                <img src="../images/IslandGoodnessLogoBlack.svg" width="100px">
+            <a href="../index.php"><img src="../images\IslandGoodnessLogoBlack.svg" width="100px"></a>
                 <h1>Please Signup</h1>
             </div>
 

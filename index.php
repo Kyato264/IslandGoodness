@@ -37,6 +37,7 @@ include ("dbConn.php");
 
                 <?php if (isset($_SESSION['Email'])) { ?>
                     <a href="account.php">Account</a>
+		<a href="logout.php">logout</a>
                 <?php } ?>
 
                 <?php if (!isset($_SESSION['Email'])) { ?>

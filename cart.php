@@ -1,6 +1,7 @@
 <?php
 session_start();
-include ("dbConn.php"); ?>
+include ("dbConn.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,7 +17,7 @@ include ("dbConn.php"); ?>
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
     <link rel="shortcut icon" href=images\IslandGoodnessLogoBlackNoWords.svg type="image/x-icon">
-    <title>Template</title>
+    <title>Cart</title>
     <style>
         #content {
             padding: 1.5em;
@@ -41,140 +42,73 @@ include ("dbConn.php"); ?>
             border-radius: 5px;
         }
 
-        #itemInfo {
+
+        .pass {
+            background-color: #def2de;
+            color: #42a944;
+            padding: 10px;
+            width: 95%;
+            border-radius: 5px;
+        }
+
+        #cartItems {
             width: 100%;
-            display: flex;
-            gap: 4rem;
-        }
-
-        #itemImage {
-            width: 30%;
-            display: flex;
-            justify-content: center;
-        }
-
-        #itemImage img {
-            width: 200px;
-            height: 200px;
-        }
-
-        #itemText {
-            width: 70%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 1.5em;
         }
 
-        #itemText h4 {
-            color: rgb(73, 73, 73);
-        }
-
-        .form-row {
-            display: flex;
-            margin: 32px 0;
-        }
-
-        .form-row .input-data {
-            width: 100%;
-            height: 40px;
-            position: relative;
-        }
-
-        .input-data input[type=number],
-        .textarea textarea {
-            display: block;
-            width: 100%;
-            height: 100%;
-            border: none;
-            font-size: 17px;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.12);
-            outline: none
-        }
-
-        .input-data input[type=number]:focus~label,
-        .input-data input[type=number]:focus-visible~label,
-        .textarea textarea:focus~label,
-        .input-data input[type=number]:valid~label,
-        .textarea textarea:valid~label {
-            transform: translateY(-20px);
-            font-size: 14px;
-            color: #ffd22f;
-            outline: none;
-        }
-
-        .textarea textarea {
-            resize: none;
-            padding-top: 10px;
-        }
-
-        .input-data label {
-            position: absolute;
-            pointer-events: none;
-            bottom: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .textarea label {
-            width: 100%;
-            bottom: 40px;
-            background: #fff;
-        }
-
-        .input-data .underline {
-            position: absolute;
-            bottom: 0;
-            height: 2px;
-            width: 100%;
-            z-index: 1;
-        }
-
-        .input-data .underline:before {
-            position: absolute;
-            content: "";
-            height: 2px;
-            width: 100%;
-            background: #ffd22f;
-            transform: scaleX(0);
-            transform-origin: center;
-            transition: transform 0.3s ease;
-        }
-
-        .input-data input[type=number]:focus~.underline:before,
-        .input-data input[type=number]:focus-visible~.underline:before,
-        .input-data input[type=number]:valid~.underline:before,
-        .textarea textarea:focus~.underline:before,
-        .textarea textarea:valid~.underline:before {
-            transform: scale(1);
-        }
-
-        .formBtns {
+        #cartItem {
             width: 100%;
             display: flex;
             justify-content: space-around;
+
         }
 
-        .formBtns input {
-            background: white;
-            color: #ffd22f;
-            border-style: solid;
-            border-color: #ffd22f;
-            height: 50px;
-            width: 100%;
-            text-shadow: none;
-            transition: 0.3s ease-in-out;
+        #cartItem a,
+        #cartItem a:visited {
+            text-decoration: none;
+            color: #A94442;
+            font-weight: bold;
+            padding: 10px;
+            border: solid transparent;
+            transition: 0.2s ease-in-out;
         }
 
-        .formBtns input:hover {
-            background-color: #ffd22f;
-            color: white;
-            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        #cartItem a:hover {
+            border: solid #A94442;
         }
 
-        .formBtns input:active {
-            transform: translate(0px, 10px);
+        #cartITem a:active {
+            transform: translate(0px, 5px);
         }
+
+        .modal {
+                display: none;
+                position: fixed;
+                z-index: 150;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.7);
+                justify-content: center;
+                align-items: center;
+            }
+
+            .modal-content {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5em;
+                background-color: white;
+                padding: 20px;
+                border: 1px solid #888;
+                border-radius: 5px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                text-align: center;
+            }
     </style>
 </head>
 
@@ -194,7 +128,7 @@ include ("dbConn.php"); ?>
 
                 <?php if (isset($_SESSION['Email'])) { ?>
                     <a href="account.php">Account</a>
-<a href="logout.php">logout</a>
+                    <a href="logout.php">Logout</a>
                 <?php } ?>
 
                 <?php if (!isset($_SESSION['Email'])) { ?>
@@ -243,7 +177,6 @@ include ("dbConn.php"); ?>
 
                 <?php if (isset($_SESSION['Email'])) { ?>
                     <a href="account.php">Account</a>
-                    <a href="logout.php">logout</a>
                 <?php } ?>
 
                 <?php if (!isset($_SESSION['Email'])) { ?>
@@ -263,77 +196,68 @@ include ("dbConn.php"); ?>
 
         <div id="content">
             <div id="contentCrt">
+                <h1>YOUR CART</h1>
+
                 <?php if (isset($_GET['error'])) { ?>
                     <p class="error">
                         <?php echo $_GET['error']; ?>
                     </p>
                 <?php } ?>
 
-                <?php
-                if (isset($_GET["Name"])) {
-                    $encodedName = $_GET['Name'];
-                    $name = urldecode($encodedName);
-                    $query = "SELECT * FROM fooditem WHERE Name = '$name'";
+                <?php if (isset($_GET['pass'])) { ?>
+                    <p class="pass">
+                        <?php echo $_GET['pass']; ?>
+                    </p>
+                <?php } ?>
+
+
+                <div id="cartItems">
+
+                    <?php
+                    $id = $_SESSION['CustomerID'];
+
+                    $query = "SELECT * FROM cart 
+                            INNER JOIN fooditem ON cart.ItemID = fooditem.ItemID
+                            WHERE cart.CustomerID = $id";
                     $result = $conn->query($query);
 
-                    if ($result && $result->num_rows > 0) {
-                        $row = $result->fetch_assoc(); ?>
-                        <div id="titleName">
-                            <h1>
-                                <?php echo $row['Name']; ?>
-                                <h1>
-                        </div>
-
-                        <div id="itemInfo">
-                            <div id="itemImage">
-                                <?php echo '<img src="data:image/jpeg;base64, ' . $row['Image'] . '" alt="' . $row["Name"] . '">'; ?>
+                    while ($row = $result->fetch_assoc()) { ?>
+                        <div id="cartItem">
+                            <div id="itemName">
+                                <h3>Item:
+                                    <?php echo $row['Name']; ?>
+                                </h3>
                             </div>
 
-                            <div id="itemText">
-                                <div id="itemTDescription">
-                                    <h3>Description</h3>
-                                    <h4>
-                                        <?php echo $row['Description']; ?>
-                                    </h4>
-                                </div>
-
-                                <div id="itemPrice">
-                                    <h3>Price</h3>
-                                    <h4>
-                                        $BBD
-                                        <?php echo $row['Price']; ?>
-                                    </h4>
-                                </div>
-
-                                <form action="cartProcessing.php" method="post">
-                                    <div id="shhh" style="display: none;">
-                                        <input type="number" name="ItemID" value="<?php echo $row['ItemID']; ?>">
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="input-data">
-                                            <input type="number" name="quantity" oninput="maxLengthCheck(this)" maxlength="1" max="5" required>
-                                            <div class="underline"></div>
-                                            <label for="quantity">Quantity</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="formBtns">
-                                        <input type="submit" value="ADD TO CART">
-                                    </div>
-                                </form>
-
+                            <div id="itemQty">
+                                <h3>Qty:
+                                    <?php echo $row['Quantity']; ?>
+                                </h3>
                             </div>
-                        </div>
-                    <?php } else {
-                        echo 'Menu item not found.';
-                    }
-                } else {
-                    echo 'Menu item ID not provided.';
-                }
-                ?>
 
+                            <div id="itemPrice">
+                                <h3>Price:
+                                    <?php echo $row['Quantity'] * $row['Price']; ?>
+                                </h3>
+                            </div>
+
+                            <div id="confirmationModal" class="modal">
+                                <div class="modal-content">
+                                    <p style="color: #A94442">Are you sure you want to delete this item?</p>
+                                    <?php
+                                    $encodedCartID = urlencode($row['CartID']);
+                                    echo '<a href="deleteItem.php?CartID=' . $encodedCartID . '">Delete</a>';
+                                    ?>
+                                    <a href="#" onclick="cancelAction()">No</a>
+                                </div>
+                            </div>
+
+                            <a href="#" onclick="return showConfirmation()">Delete</a>
+                        </div>
+                    <?php }
+                    ?>
+                </div>
             </div>
-
         </div>
 
         <footer class="site-footer">
@@ -385,10 +309,15 @@ include ("dbConn.php"); ?>
     </div>
     <script src="script.js"></script>
     <script>
-        function maxLengthCheck(object) {
-            if (object.value.length > object.maxLength) {
-                object.value = object.value.slice(0, object.maxLength);
-            }
+        function showConfirmation() {
+            var modal = document.getElementById("confirmationModal");
+            modal.style.display = "flex";
+            return false; // Prevent form submission
+        }
+
+        function cancelAction() {
+            var modal = document.getElementById("confirmationModal");
+            modal.style.display = "none";
         }
     </script>
 </body>

@@ -395,7 +395,7 @@
     <div class="crt">
         <div class="registerCrt" id="con2">
             <div class="registerHead">
-                <img src="images\IslandGoodnessLogoBlack.svg" width="100px">
+            <a href="index.php"><img src="images\IslandGoodnessLogoBlack.svg" width="100px"></a>
                 <h1>Please SignUp</h1>
             </div>
 
@@ -428,7 +428,7 @@
                                     </div>
                                     <div id="input">
                                         <label for="phoneNo"><b>Phone Number</b></label>
-                                        <input type="tel" placeholder="Enter Phone Number" name="phoneNo" />
+                                        <input type="tel" placeholder="Enter Phone Number" maxlength="10" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phoneNo" />
                                     </div>
                                 </div>
 

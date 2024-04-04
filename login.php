@@ -311,7 +311,7 @@ session_start();
   <div class="crt">
     <div class="loginCrt" id="con1">
       <div class="loginHead">
-        <img src="images/IslandGoodnessLogoBlack.svg" width="100px">
+        <a href="index.php"><img src="images/IslandGoodnessLogoBlack.svg" width="100px"></a>
         <h1>Please Login</h1>
       </div>
 
