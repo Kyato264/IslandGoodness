@@ -17,7 +17,7 @@ include ("dbConn.php");
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
     <link rel="shortcut icon" href=images\IslandGoodnessLogoBlackNoWords.svg type="image/x-icon">
-    <title>Cart</title>
+    <title>Account</title>
     <style>
         #content {
             padding: 1.5em;
@@ -34,80 +34,109 @@ include ("dbConn.php");
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
         }
 
-        .error {
-            background-color: #F2DEDE;
-            color: #A94442;
-            padding: 10px;
-            width: 95%;
-            border-radius: 5px;
-        }
-
-
-        .pass {
-            background-color: #def2de;
-            color: #42a944;
-            padding: 10px;
-            width: 95%;
-            border-radius: 5px;
-        }
-
-        #cartItems {
+        #accHeader {
+            display: flex;
             width: 100%;
+            justify-content: space-around;
+        }
+
+        hr {
+            background-color: #333333;
+            height: 2px;
+            width: 100%;
+            border: none;
+            margin-top: 10px;
+        }
+
+        #userInfo {
+            width: 100%;
+            display:flex;
+            justify-content: space-around;
+        }
+
+        form {
+            width: 25%;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            gap: 1.5em;
         }
 
-        #cartItem {
-            width: 100%;
+        .form-row {
             display: flex;
-            justify-content: space-around;
-
+            margin: 32px 0;
         }
 
-        #cartItem a,
-        #cartItem a:visited {
-            text-decoration: none;
-            color: #A94442;
-            font-weight: bold;
-            padding: 10px;
-            border: solid transparent;
-            transition: 0.2s ease-in-out;
+        .form-row .input-data {
+            width: 100%;
+            height: 40px;
+            position: relative;
         }
 
-        #cartItem a:hover {
-            border: solid #A94442;
-        }
-
-        #cartITem a:active {
-            transform: translate(0px, 5px);
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 150;
-            left: 0;
-            top: 0;
+        .input-data input[type=password],
+        .textarea textarea {
+            display: block;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
+            border: none;
+            font-size: 17px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+            outline: none
         }
 
-        .modal-content {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5em;
-            background-color: white;
-            padding: 20px;
-            border: 1px solid #888;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
+        .input-data input[type=password]:focus~label,
+        .input-data input[type=password]:focus-visible~label,
+        .textarea textarea:focus~label,
+        .input-data input[type=password]:valid~label,
+        .textarea textarea:valid~label {
+            transform: translateY(-20px);
+            font-size: 14px;
+            color: #ffd22f;
+            outline: none;
+        }
+
+        .textarea textarea {
+            resize: none;
+            padding-top: 10px;
+        }
+
+        .input-data label {
+            position: absolute;
+            pointer-events: none;
+            bottom: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .textarea label {
+            width: 100%;
+            bottom: 40px;
+            background: #fff;
+        }
+
+        .input-data .underline {
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .input-data .underline:before {
+            position: absolute;
+            content: "";
+            height: 2px;
+            width: 100%;
+            background: #ffd22f;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+
+        .input-data input[type=password]:focus~.underline:before,
+        .input-data input[type=password]:focus-visible~.underline:before,
+        .input-data input[type=password]:valid~.underline:before,
+        .textarea textarea:focus~.underline:before,
+        .textarea textarea:valid~.underline:before {
+            transform: scale(1);
         }
     </style>
 </head>
@@ -196,76 +225,69 @@ include ("dbConn.php");
 
         <div id="content">
             <div id="contentCrt">
-                <h1>YOUR CART</h1>
+                <div id="accHeader">
+                    <div id="accHeaderText">
+                        <h3>You account,</h3>
+                        <h1>
+                            <?php
+                            $fname = $_SESSION['FirstName'];
+                            $lname = $_SESSION['LastName'];
+                            echo "$fname $lname" ?>
+                        </h1>
+                    </div>
 
-                <?php if (isset($_GET['error'])) { ?>
-                    <p class="error">
-                        <?php echo $_GET['error']; ?>
-                    </p>
-                <?php } ?>
-
-                <?php if (isset($_GET['pass'])) { ?>
-                    <p class="pass">
-                        <?php echo $_GET['pass']; ?>
-                    </p>
-                <?php } ?>
-
-
-                <div id="cartItems">
-
-                    <?php
-                    $id = $_SESSION['CustomerID'];
-
-                    $query = "SELECT * FROM cart 
-                            INNER JOIN fooditem ON cart.ItemID = fooditem.ItemID
-                            WHERE cart.CustomerID = $id";
-                    $result = $conn->query($query);
-
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = $result->fetch_assoc()) { ?>
-                            <div id="cartItem">
-                                <div id="itemName">
-                                    <h3>Item:
-                                        <?php echo $row['Name']; ?>
-                                    </h3>
-                                </div>
-
-                                <div id="itemQty">
-                                    <h3>Qty:
-                                        <?php echo $row['Quantity']; ?>
-                                    </h3>
-                                </div>
-
-                                <div id="itemPrice">
-                                    <h3>Price:
-                                        <?php echo $row['Quantity'] * $row['Price']; ?>
-                                    </h3>
-                                </div>
-
-                                <div id="confirmationModal" class="modal">
-                                    <div class="modal-content">
-                                        <p style="color: #A94442">Are you sure you want to delete this item?</p>
-                                        <?php
-                                        $encodedCartID = urlencode($row['CartID']);
-                                        echo '<a href="deleteItem.php?CartID=' . $encodedCartID . '">Delete</a>';
-                                        ?>
-                                        <a href="#" onclick="cancelAction()">No</a>
-                                    </div>
-                                </div>
-
-                                <a href="#" onclick="return showConfirmation()">Delete</a>
-                            </div>
-
-                        <?php }
-                        ?>
-                    <?php } else {?>
-                        <h3 style="text-align: center;">Cart is empty.</h3>
-                    <?php }
-                    ?>
+                    <img src="images\IslandGoodnessLogoBlack.svg" width="55px">
                 </div>
 
-                <!--PUT THE SUBMIT AND WHATEVER ELSE HERE-->
+                <hr>
+
+                <h3>Total orders place:
+                    <?php
+                    $customerID = $_SESSION['CustomerID'];
+
+                    $query = "SELECT * FROM orders 
+                            WHERE CustomerID = $customerID";
+                    $result = $conn->query($query);
+
+                    echo mysqli_num_rows($result);
+                    ?>
+                </h3>
+
+                <div id="userInfo">
+
+                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                        <div class="form-row">
+                            <div class="input-data">
+                                <input type="password" name="currentPsw" required>
+                                <div class="underline"></div>
+                                <label for="currentPsw">Enter your current password</label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="input-data">
+                                <input type="password" name="newPsw" required>
+                                <div class="underline"></div>
+                                <label for="newPsw">Enter your new password</label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="input-data">
+                                <input type="password" name="reNewPsw" required>
+                                <div class="underline"></div>
+                                <label for="reNewPsw">Re-enter your new password</label>
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                </div>
+
+
             </div>
+
         </div>
 
         <footer class="site-footer">
@@ -316,18 +338,6 @@ include ("dbConn.php");
     </footer>
     </div>
     <script src="script.js"></script>
-    <script>
-        function showConfirmation() {
-            var modal = document.getElementById("confirmationModal");
-            modal.style.display = "flex";
-            return false; // Prevent form submission
-        }
-
-        function cancelAction() {
-            var modal = document.getElementById("confirmationModal");
-            modal.style.display = "none";
-        }
-    </script>
 </body>
 
 </html>
