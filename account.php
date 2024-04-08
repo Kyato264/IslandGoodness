@@ -40,6 +40,23 @@ include ("dbConn.php");
             justify-content: space-around;
         }
 
+        .error {
+            background-color: #F2DEDE;
+            color: #A94442;
+            padding: 10px;
+            width: 95%;
+            border-radius: 5px;
+        }
+
+
+        .pass {
+            background-color: #def2de;
+            color: #42a944;
+            padding: 10px;
+            width: 95%;
+            border-radius: 5px;
+        }
+
         hr {
             background-color: #333333;
             height: 2px;
@@ -50,7 +67,7 @@ include ("dbConn.php");
 
         #userInfo {
             width: 100%;
-            display:flex;
+            display: flex;
             justify-content: space-around;
         }
 
@@ -138,6 +155,34 @@ include ("dbConn.php");
         .textarea textarea:valid~.underline:before {
             transform: scale(1);
         }
+
+        .formBtns {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0px;
+        }
+
+        .formBtns input {
+            background: white;
+            color: #ffd22f;
+            border-style: solid;
+            border-color: #ffd22f;
+            height: 50px;
+            width: 100%;
+            text-shadow: none;
+            transition: 0.3s ease-in-out;
+        }
+
+        .formBtns input:hover {
+            background-color: #ffd22f;
+            color: white;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
+        .formBtns input:active {
+            transform: translate(0px, 10px);
+        }
     </style>
 </head>
 
@@ -173,7 +218,15 @@ include ("dbConn.php");
                 <?php } ?>
 
                 <a href="cart.php"><img src="images/cart.svg" alt="cart" width="20px">
-                    0
+                <?php
+                        $customerID = $_SESSION['CustomerID'];
+
+                        $query = "SELECT * FROM cart 
+                                WHERE CustomerID = $customerID";
+                        $result = $conn->query($query);
+    
+                        echo mysqli_num_rows($result);
+                    ?>
                 </a>
 
             </div>
@@ -228,6 +281,7 @@ include ("dbConn.php");
                 <div id="accHeader">
                     <div id="accHeaderText">
                         <h3>You account,</h3>
+
                         <h1>
                             <?php
                             $fname = $_SESSION['FirstName'];
@@ -255,7 +309,18 @@ include ("dbConn.php");
 
                 <div id="userInfo">
 
-                    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+                    <form action="passwordUpdate.php" method="post">
+                        <?php if (isset($_GET['error'])) { ?>
+                            <p class="error">
+                                <?php echo $_GET['error']; ?>
+                            </p>
+                        <?php } ?>
+
+                        <?php if (isset($_GET['pass'])) { ?>
+                            <p class="pass">
+                                <?php echo $_GET['pass']; ?>
+                            </p>
+                        <?php } ?>
                         <div class="form-row">
                             <div class="input-data">
                                 <input type="password" name="currentPsw" required>
@@ -278,6 +343,10 @@ include ("dbConn.php");
                                 <div class="underline"></div>
                                 <label for="reNewPsw">Re-enter your new password</label>
                             </div>
+                        </div>
+
+                        <div class="formBtns">
+                            <input type="submit" value="Change Password">
                         </div>
 
                     </form>

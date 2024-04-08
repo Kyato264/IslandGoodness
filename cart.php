@@ -63,6 +63,7 @@ include ("dbConn.php");
             width: 100%;
             display: flex;
             justify-content: space-around;
+            align-items: center;
 
         }
 
@@ -80,7 +81,7 @@ include ("dbConn.php");
             border: solid #A94442;
         }
 
-        #cartITem a:active {
+        #cartItem a:active {
             transform: translate(0px, 5px);
         }
 
@@ -144,7 +145,15 @@ include ("dbConn.php");
                 <?php } ?>
 
                 <a href="cart.php"><img src="images/cart.svg" alt="cart" width="20px">
-                    0
+                <?php
+                        $customerID = $_SESSION['CustomerID'];
+
+                        $query = "SELECT * FROM cart 
+                                WHERE CustomerID = $customerID";
+                        $result = $conn->query($query);
+    
+                        echo mysqli_num_rows($result);
+                    ?>
                 </a>
 
             </div>
@@ -237,8 +246,7 @@ include ("dbConn.php");
                                 </div>
 
                                 <div id="itemPrice">
-                                    <h3>Price:
-                                        <?php echo $row['Quantity'] * $row['Price']; ?>
+                                    <h3>Price:BBD$<?php echo $row['Quantity'] * $row['Price']; ?>
                                     </h3>
                                 </div>
 
