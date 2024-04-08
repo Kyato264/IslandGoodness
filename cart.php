@@ -32,6 +32,7 @@ include ("dbConn.php");
             padding: 1.5em;
             border-radius: 0.25em;
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            gap: 1.5em;
         }
 
         .error {
@@ -110,6 +111,53 @@ include ("dbConn.php");
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
+
+        hr {
+            background-color: #333333;
+            height: 2px;
+            width: 100%;
+            border: none;
+            margin-top: 10px;
+        }
+
+        #deliveryInfo {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+
+        .formBtns {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0px;
+        }
+
+        .formBtns input {
+            background: white;
+            color: #ffd22f;
+            border-style: solid;
+            border-color: #ffd22f;
+            height: 50px;
+            width: 100px;
+            text-shadow: none;
+            transition: 0.3s ease-in-out;
+        }
+
+        .formBtns input:hover {
+            background-color: #ffd22f;
+            color: white;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
+        .formBtns input:active {
+            transform: translate(0px, 10px);
+        }
     </style>
 </head>
 
@@ -145,14 +193,14 @@ include ("dbConn.php");
                 <?php } ?>
 
                 <a href="cart.php"><img src="images/cart.svg" alt="cart" width="20px">
-                <?php
-                        $customerID = $_SESSION['CustomerID'];
+                    <?php
+                    $customerID = $_SESSION['CustomerID'];
 
-                        $query = "SELECT * FROM cart 
+                    $query = "SELECT * FROM cart 
                                 WHERE CustomerID = $customerID";
-                        $result = $conn->query($query);
-    
-                        echo mysqli_num_rows($result);
+                    $result = $conn->query($query);
+
+                    echo mysqli_num_rows($result);
                     ?>
                 </a>
 
@@ -246,7 +294,8 @@ include ("dbConn.php");
                                 </div>
 
                                 <div id="itemPrice">
-                                    <h3>Price:BBD$<?php echo $row['Quantity'] * $row['Price']; ?>
+                                    <h3>Price:BBD$
+                                        <?php echo $row['Quantity'] * $row['Price']; ?>
                                     </h3>
                                 </div>
 
@@ -264,63 +313,100 @@ include ("dbConn.php");
                                 <a href="#" onclick="return showConfirmation()">Delete</a>
                             </div>
 
+
+
                         <?php }
                         ?>
-                    <?php } else {?>
+                    <?php } else { ?>
                         <h3 style="text-align: center;">Cart is empty.</h3>
                     <?php }
                     ?>
                 </div>
 
-                <!--PUT THE SUBMIT AND WHATEVER ELSE HERE-->
+                <hr>
+
+                <h3 id="total">Total: BBD$<?php 
+                $id = $_SESSION['CustomerID'];
+
+                $query = "SELECT * FROM cart 
+                INNER JOIN fooditem ON cart.ItemID = fooditem.ItemID
+                WHERE cart.CustomerID = $id";
+                $result = mysqli_query($conn, $query);
+                
+                $sum = 0;
+                
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $sum += ($row['Quantity'] * $row['Price']);
+                }
+
+                echo $sum;
+                ?></h3>
+
+                <hr>
+
+                <div id="deliveryInfo">
+                    <h3>Select delivery Location:</h3>
+                    <div id="map"></div>
+                    <form action="cardPayProcessing.php" method="post">
+                        <input type="hidden" name="latitude" id="latitude">
+                        <input type="hidden" name="longitude" id="longitude">
+                        <div class="formBtns">
+                            <input type="submit" formaction="cashPaymentProcessing.php" value="Cash Payment">
+                            <input type="submit" value="Card Payment">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!--PUT THE SUBMIT AND WHATEVER ELSE HERE-->
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h6>About</h6>
+                    <p class="text-justify">Island Goodness is dedicated to providing top-notch food and service,
+                        always accompanied by a warm smile. Our goal is to ensure that every customer enjoys
+                        high-quality cuisine and friendly hospitality.</p>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Menu</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Soups</a></li>
+                        <li><a href="#">Lasagnas</a></li>
+                        <li><a href="#">Pizzas</a></li>
+                        <li><a href="#">Preserves</a></li>
+                        <li><a href="#">Condiments</a></li>
+                        <li><a href="#">Drinks</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Track Orders</a></li>
+                        <li><a href="Staff/staffLogin.php">Staff Portal</a></li>
+                        <li><a href="index.php">Customer Portal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
+                        <a href="#">Island Goodness</a>.
+                    </p>
+                </div>
+
             </div>
         </div>
-
-        <footer class="site-footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 col-md-6">
-                        <h6>About</h6>
-                        <p class="text-justify">Island Goodness is dedicated to providing top-notch food and service,
-                            always accompanied by a warm smile. Our goal is to ensure that every customer enjoys
-                            high-quality cuisine and friendly hospitality.</p>
-                    </div>
-
-                    <div class="col-xs-6 col-md-3">
-                        <h6>Menu</h6>
-                        <ul class="footer-links">
-                            <li><a href="#">Soups</a></li>
-                            <li><a href="#">Lasagnas</a></li>
-                            <li><a href="#">Pizzas</a></li>
-                            <li><a href="#">Preserves</a></li>
-                            <li><a href="#">Condiments</a></li>
-                            <li><a href="#">Drinks</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="col-xs-6 col-md-3">
-                        <h6>Quick Links</h6>
-                        <ul class="footer-links">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Track Orders</a></li>
-                            <li><a href="Staff/staffLogin.php">Staff Portal</a></li>
-                            <li><a href="index.php">Customer Portal</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <hr>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-8 col-sm-6 col-xs-12">
-                        <p class="copyright-text">Copyright &copy; 2024 All Rights Reserved by
-                            <a href="#">Island Goodness</a>.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-    </div>
+        </div>
     </footer>
     </div>
     <script src="script.js"></script>
@@ -335,7 +421,33 @@ include ("dbConn.php");
             var modal = document.getElementById("confirmationModal");
             modal.style.display = "none";
         }
+
+        var map;
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 13.1939, lng: -59.5432 },
+                zoom: 8
+            });
+
+            var marker = new google.maps.Marker({
+                position: { lat: 13.1939, lng: -59.5432 },
+                map: map,
+                draggable: true
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function (event) {
+                document.getElementById('latitude').value = event.latLng.lat();
+                document.getElementById('longitude').value = event.latLng.lng();
+            });
+        }
+
     </script>
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChufpGKSGUHukJqJeRhlwakQigNd3Tvpw&libraries=places&callback=initMap"
+        async defer></script>
+
+
 </body>
 
 </html>
