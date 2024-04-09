@@ -33,9 +33,10 @@ include ("dbConn.php");
 
             <div id="headerLinks">
                 <a href="index.php">Home</a>
-                <a href="trackOrders.php">Track Orders</a>
+                
 
                 <?php if (isset($_SESSION['Email'])) { ?>
+                    <a href="trackOrders.php">Track Orders</a>
                     <a href="account.php">Account</a>
 		<a href="logout.php">logout</a>
                 <?php } ?>
@@ -94,9 +95,10 @@ include ("dbConn.php");
 
             <div class="sidebarLinks">
                 <a href="index.php">Home</a>
-                <a href="trackOrders.php">Track Orders</a>
+                
 
                 <?php if (isset($_SESSION['Email'])) { ?>
+                    <a href="trackOrders.php">Track Orders</a>
                     <a href="account.php">Account</a>
                     <a href="logout.php">Logout</a>
                 <?php } ?>
@@ -396,12 +398,12 @@ include ("dbConn.php");
                         <div class="col-xs-6 col-md-3">
                             <h6>Menu</h6>
                             <ul class="footer-links">
-                                <li><a href="#">Soups</a></li>
-                                <li><a href="#">Lasagnas</a></li>
-                                <li><a href="#">Pizzas</a></li>
-                                <li><a href="#">Preserves</a></li>
-                                <li><a href="#">Condiments</a></li>
-                                <li><a href="#">Drinks</a></li>
+                                <li><a href="#soup" onclick=toggleSoup()>Soups</a></li>
+                                <li><a href="#lasagnas" onclick=toggleLasagna()>Lasagnas</a></li>
+                                <li><a href="#pizza" onclick=togglePizza()>Pizzas</a></li>
+                                <li><a href="#preserve" onclick=togglePreserve()>Preserves</a></li>
+                                <li><a href="#condiment" onclick=toggleCondiment()>Condiments</a></li>
+                                <li><a href="#drink" onclick=toggleDrink()>Drinks</a></li>
                             </ul>
                         </div>
 
@@ -409,7 +411,6 @@ include ("dbConn.php");
                             <h6>Quick Links</h6>
                             <ul class="footer-links">
                                 <li><a href="#">Home</a></li>
-                                <li><a href="#">Track Orders</a></li>
                                 <li><a href="Staff/staffLogin.php">Staff Portal</a></li>
                                 <li><a href="index.php">Customer Portal</a></li>
 

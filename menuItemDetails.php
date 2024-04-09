@@ -193,6 +193,7 @@ include ("dbConn.php"); ?>
                 <a href="trackOrders.php">Track Orders</a>
 
                 <?php if (isset($_SESSION['Email'])) { ?>
+                    <a href="trackOrders.php">Track Orders</a>
                     <a href="account.php">Account</a>
 <a href="logout.php">logout</a>
                 <?php } ?>
@@ -251,9 +252,10 @@ include ("dbConn.php"); ?>
 
             <div class="sidebarLinks">
                 <a href="index.php">Home</a>
-                <a href="trackOrders.php">Track Orders</a>
+                
 
                 <?php if (isset($_SESSION['Email'])) { ?>
+                    <a href="trackOrders.php">Track Orders</a>
                     <a href="account.php">Account</a>
                     <a href="logout.php">logout</a>
                 <?php } ?>
