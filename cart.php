@@ -193,14 +193,18 @@ include ("dbConn.php");
                 <?php } ?>
 
                 <a href="cart.php"><img src="images/cart.svg" alt="cart" width="20px">
-                    <?php
-                    $customerID = $_SESSION['CustomerID'];
+                <?php
+                        if(isset($_SESSION['CustomerID'])) {
+                            $customerID = $_SESSION['CustomerID'];
 
-                    $query = "SELECT * FROM cart 
+                        $query = "SELECT * FROM cart 
                                 WHERE CustomerID = $customerID";
-                    $result = $conn->query($query);
-
-                    echo mysqli_num_rows($result);
+                        $result = $conn->query($query);
+    
+                        echo mysqli_num_rows($result);
+                        } else {
+                            echo 0;
+                        }
                     ?>
                 </a>
 

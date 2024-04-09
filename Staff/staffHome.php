@@ -21,6 +21,66 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             rel="stylesheet">
         <link rel="shortcut icon" href=../images\IslandGoodnessLogoBlackNoWords.svg type="image/x-icon">
         <title>Staff Home</title>
+        <style>
+            #content {
+                padding: 1.5em;
+            }
+
+            h1 {
+                padding-bottom: 1em;
+                padding-top: 1em;
+            }
+
+            .sss {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 1.5em;
+                flex-wrap: wrap;
+            }
+
+            .box {
+                padding: 1.5em;
+                border-radius: 0.25em;
+                box-shadow: 0rem 0.25rem 0.5625rem 0rem rgba(0, 0, 0, 0.15);
+                transition: 0.2s ease-in-out;
+                gap: 1.5em;
+            }
+
+            .box:hover {
+                box-shadow: rgba(255, 210, 47, 0.4) -5px 5px, rgba(255, 219, 88, 0.3) -10px 10px;
+            }
+
+            .formBtns {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0px;
+        }
+
+        .formBtns input {
+            background: white;
+            color: #ffd22f;
+            border-style: solid;
+            border-color: #ffd22f;
+            height: 50px;
+            width: 100px;
+            text-shadow: none;
+            transition: 0.3s ease-in-out;
+        }
+
+        .formBtns input:hover {
+            background-color: #ffd22f;
+            color: white;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
+        .formBtns input:active {
+            transform: translate(0px, 10px);
+        }
+        </style>
     </head>
 
     <body>
@@ -71,45 +131,129 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
 
 
             <div id="content">
-                <div id="newOrders">
-                    <h1>New Orders</h1>
+            <h1>New Orders</h1>
+                <div id="newOrders" class="sss">
+                    
 
-                    <div id="newOrder">
+                    <?php $sql = "SELECT 
+            orders.OrderID, 
+            orders.TimeStamp, 
+            GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
+        FROM 
+            orders
+        INNER JOIN 
+            orderitems ON orderitems.OrderID = orders.OrderID
+        INNER JOIN 
+            fooditem ON fooditem.ItemID = orderitems.ItemID
+        WHERE 
+            orders.Status = 'awaiting'
+        GROUP BY 
+            orders.OrderID";
 
-                        <?php $sql = "SELECT * FROM orders
-                                INNER JOIN orderitems ON
-                                orderitems.OrderID = orders.OrderID
-                                WHERE orders.Status = 'awaiting'";
+                    $result = $conn->query($sql);
 
-                        $result = $conn->query($sql);
-
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                $OrderID = $row['OrderID']; ?>
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <div id="newOrder" class="box">
                                 <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
-                                <h2>Time Placed: <?php echo $row['TimeStamp']; ?></h2>
-                                <h2>Order Items:</h2>
-                                <?php $query = "SELECT * FROM orderitems
-                                                INNER JOIN fooditem ON fooditem.ItemID = orderitems.ItemID
-                                                WHERE OrderID = $OrderID";
-                                $results = $conn->query($query);
-                                if (mysqli_num_rows($results) > 0) {
-                                    while ($row = $results->fetch_assoc()) { ?>
-                                        <?php echo $row['Name']; ?></br>
-                                    <?php }
-                                } ?>
-                            <?php }
-                        } ?>
-
-                    </div>
+                                <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
+                                <h3>Order Items:</h3>
+                                <h4><?php echo $row['OrderItems']; ?></h4>
+                                <form action="" method="POST">
+                                <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
+                                    <div class="formBtns">
+                                        <input type="submit" formaction="in-progress.php" value="In-progress">
+                                        <input type="submit" formaction="delivery.php" value="Out For Delivery">
+                                        <input type="submit" formaction="Completed.php" value="Completed">
+                                    </div>
+                                </form>
+                            </div>
+                        <?php }
+                    }
+                    ?>
                 </div>
 
-                <div id="CurrentOrders">
-                    <h1>Current Orders</h1>
+                <h1>Current Orders</h1>
+                <div id="CurrentOrders" class="sss">
+                <?php $sql = "SELECT 
+            orders.OrderID, 
+            orders.TimeStamp, 
+            GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
+        FROM 
+            orders
+        INNER JOIN 
+            orderitems ON orderitems.OrderID = orders.OrderID
+        INNER JOIN 
+            fooditem ON fooditem.ItemID = orderitems.ItemID
+        WHERE 
+            orders.Status = 'In-progress'
+        GROUP BY 
+            orders.OrderID";
+
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <div id="newOrder" class="box">
+                                <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
+                                <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
+                                <h3>Order Items:</h3>
+                                <h4><?php echo $row['OrderItems']; ?></h4>
+                                <form action="" method="POST">
+                                <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
+                                    <div class="formBtns">
+                                        <input type="submit" formaction="awaiting.php" value="awaiting">
+                                        <input type="submit" formaction="delivery.php" value="Out For Delivery">
+                                        <input type="submit" formaction="Completed.php" value="Completed">
+                                    </div>
+                                </form>
+                            </div>
+                        <?php }
+                    }
+                    ?>
                 </div>
 
-                <div id="outForDelivery">
-                    <h1>Our For Delivery</h1>
+                <h1>Our For Delivery</h1>
+                <div id="outForDelivery" class="sss">
+                <?php $sql = "SELECT 
+            orders.OrderID, 
+            orders.TimeStamp, 
+            GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
+        FROM 
+            orders
+        INNER JOIN 
+            orderitems ON orderitems.OrderID = orders.OrderID
+        INNER JOIN 
+            fooditem ON fooditem.ItemID = orderitems.ItemID
+        WHERE 
+            orders.Status = 'Delivery'
+        GROUP BY 
+            orders.OrderID";
+
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <div id="newOrder" class="box">
+                                <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
+                                <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
+                                <h3>Order Items:</h3>
+                                <h4><?php echo $row['OrderItems']; ?></h4>
+                                <form action="" method="POST">
+                                <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
+                                    <div class="formBtns">
+                                        <input type="submit" formaction="awaiting.php" value="awaiting">
+                                        <input type="submit" formaction="in-progress.php" value="In-progress">
+                                        <input type="submit" formaction="Completed.php" value="Completed">
+                                    </div>
+                                </form>
+                            </div>
+                        <?php }
+                    }
+                    ?>
                 </div>
             </div>
 
