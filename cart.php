@@ -144,7 +144,7 @@ include ("dbConn.php");
             border-style: solid;
             border-color: #ffd22f;
             height: 50px;
-            width: 100px;
+            width: 100%;
             text-shadow: none;
             transition: 0.3s ease-in-out;
         }
@@ -351,8 +351,7 @@ include ("dbConn.php");
                         <input type="hidden" name="latitude" id="latitude">
                         <input type="hidden" name="longitude" id="longitude">
                         <div class="formBtns">
-                            <input type="submit" formaction="cashPaymentProcessing.php" value="Cash Payment">
-                            <input type="submit" value="Card Payment">
+                            <input type="submit" formaction="cashPaymentProcessing.php" value="Place Order">
                         </div>
                     </form>
                 </div>
@@ -446,8 +445,6 @@ include ("dbConn.php");
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyChufpGKSGUHukJqJeRhlwakQigNd3Tvpw&libraries=places&callback=initMap"
         async defer></script>
-
-
 </body>
 
 </html>

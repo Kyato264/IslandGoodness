@@ -6,6 +6,14 @@ $id = $_SESSION['CustomerID'];
 $Latitude = $_POST['latitude'];
 $Longitude = $_POST['longitude'];
 
+$sql = "SELECT * FROM cart WHERE CustomerID = $id";
+$result = mysqli_query($conn, $sql);
+
+if(mysqli_num_rows($result) == 0) {
+    header("Location: cart.php?error=Cart is empty");
+    exit();
+}
+
 // Quote string values in the SQL query
 $query = "INSERT INTO orders (CustomerID, Latitude, Longitude) VALUES ('$id', '$Latitude', '$Longitude')";
 mysqli_query($conn, $query);
@@ -29,4 +37,4 @@ mysqli_query($conn, $query);
 
 header("Location: orderConfirmation.php");
 exit();
-?>
+
