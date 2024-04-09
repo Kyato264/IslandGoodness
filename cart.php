@@ -378,22 +378,9 @@ include ("dbConn.php");
                 </div>
 
                 <div class="col-xs-6 col-md-3">
-                    <h6>Menu</h6>
-                    <ul class="footer-links">
-                        <li><a href="#">Soups</a></li>
-                        <li><a href="#">Lasagnas</a></li>
-                        <li><a href="#">Pizzas</a></li>
-                        <li><a href="#">Preserves</a></li>
-                        <li><a href="#">Condiments</a></li>
-                        <li><a href="#">Drinks</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-xs-6 col-md-3">
                     <h6>Quick Links</h6>
                     <ul class="footer-links">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Track Orders</a></li>
+                        <li><a href="index.php">Home</a></li>
                         <li><a href="Staff/staffLogin.php">Staff Portal</a></li>
                         <li><a href="index.php">Customer Portal</a></li>
                     </ul>

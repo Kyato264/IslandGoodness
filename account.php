@@ -372,8 +372,10 @@ include ("dbConn.php");
                     <div class="col-xs-6 col-md-3">
                         <h6>Quick Links</h6>
                         <ul class="footer-links">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Track Orders</a></li>
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="trackOrders.php">Track Orders</a></li>
+                            <li><a href="account.php">Account</a></li>
+                            <li><a href="cart.php">Cart</a></li>
                             <li><a href="Staff/staffLogin.php">Staff Portal</a></li>
                             <li><a href="index.php">Customer Portal</a></li>
                         </ul>

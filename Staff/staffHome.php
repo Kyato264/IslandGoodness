@@ -270,8 +270,8 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                         <div class="col-xs-6 col-md-3">
                             <h6>Quick Links</h6>
                             <ul class="footer-links">
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Track Orders</a></li>
+                                <li><a href="staffHome.php">Home</a></li>
+                                <li><a href="updateMenu.php">Update Menu</a></li>
                                 <li><a href="staffLogin.php">Staff Portal</a></li>
                                 <li><a href="../customerPortal.php">Customer Portal</a></li>
                             </ul>
