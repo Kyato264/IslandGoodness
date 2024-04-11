@@ -54,32 +54,32 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             }
 
             .formBtns {
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            padding: 20px 0px;
-        }
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                padding: 20px 0px;
+            }
 
-        .formBtns input {
-            background: white;
-            color: #ffd22f;
-            border-style: solid;
-            border-color: #ffd22f;
-            height: 50px;
-            width: 100px;
-            text-shadow: none;
-            transition: 0.3s ease-in-out;
-        }
+            .formBtns input {
+                background: white;
+                color: #ffd22f;
+                border-style: solid;
+                border-color: #ffd22f;
+                height: 50px;
+                width: 100px;
+                text-shadow: none;
+                transition: 0.3s ease-in-out;
+            }
 
-        .formBtns input:hover {
-            background-color: #ffd22f;
-            color: white;
-            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-        }
+            .formBtns input:hover {
+                background-color: #ffd22f;
+                color: white;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            }
 
-        .formBtns input:active {
-            transform: translate(0px, 10px);
-        }
+            .formBtns input:active {
+                transform: translate(0px, 10px);
+            }
         </style>
     </head>
 
@@ -96,6 +96,9 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                 <div id="headerLinks">
                     <a href="staffHome.php">Home</a>
                     <a href="updateMenu.php">Update Menu</a>
+                    <?php if ($_SESSION['Position'] == 'management') { ?>
+                        <a href="reports.php">Reports</a>
+                    <?php } ?>
                     <a href="../customerPortal.php">Logout</a>
 
                 </div>
@@ -131,9 +134,9 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
 
 
             <div id="content">
-            <h1>New Orders</h1>
+                <h1>New Orders</h1>
                 <div id="newOrders" class="sss">
-                    
+
 
                     <?php $sql = "SELECT 
             orders.OrderID, 
@@ -161,7 +164,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                                 <h3>Order Items:</h3>
                                 <h4><?php echo $row['OrderItems']; ?></h4>
                                 <form action="" method="POST">
-                                <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
+                                    <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
                                     <div class="formBtns">
                                         <input type="submit" formaction="in-progress.php" value="In-progress">
                                         <input type="submit" formaction="delivery.php" value="Out For Delivery">
@@ -176,7 +179,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
 
                 <h1>Current Orders</h1>
                 <div id="CurrentOrders" class="sss">
-                <?php $sql = "SELECT 
+                    <?php $sql = "SELECT 
             orders.OrderID, 
             orders.TimeStamp, 
             GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
@@ -202,7 +205,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                                 <h3>Order Items:</h3>
                                 <h4><?php echo $row['OrderItems']; ?></h4>
                                 <form action="" method="POST">
-                                <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
+                                    <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
                                     <div class="formBtns">
                                         <input type="submit" formaction="awaiting.php" value="awaiting">
                                         <input type="submit" formaction="delivery.php" value="Out For Delivery">
@@ -217,7 +220,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
 
                 <h1>Our For Delivery</h1>
                 <div id="outForDelivery" class="sss">
-                <?php $sql = "SELECT 
+                    <?php $sql = "SELECT 
             orders.OrderID, 
             orders.TimeStamp, 
             GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
@@ -243,11 +246,53 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                                 <h3>Order Items:</h3>
                                 <h4><?php echo $row['OrderItems']; ?></h4>
                                 <form action="" method="POST">
-                                <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
+                                    <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
                                     <div class="formBtns">
                                         <input type="submit" formaction="awaiting.php" value="awaiting">
                                         <input type="submit" formaction="in-progress.php" value="In-progress">
                                         <input type="submit" formaction="Completed.php" value="Completed">
+                                    </div>
+                                </form>
+                            </div>
+                        <?php }
+                    }
+                    ?>
+                </div>
+
+                <h1>Completed Today</h1>
+                <div id="completedToday" class="sss">
+                    <?php $sql = "SELECT 
+            orders.OrderID, 
+            orders.TimeStamp,
+            orders.CompletedTime, 
+            GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
+        FROM 
+            orders
+        INNER JOIN 
+            orderitems ON orderitems.OrderID = orders.OrderID
+        INNER JOIN 
+            fooditem ON fooditem.ItemID = orderitems.ItemID 
+            WHERE DATE(CompletedTime) = DATE(CompletedTime)
+        GROUP BY 
+            orders.OrderID";
+
+                    $result = $conn->query($sql);
+
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <div id="newOrder" class="box">
+                                <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
+                                <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
+                                <h3>Time Completed: <?php echo $row['CompletedTime']; ?></h3>
+                                <h3>Order Items:</h3>
+                                <h4><?php echo $row['OrderItems']; ?></h4>
+                                <form action="" method="POST">
+                                    <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
+                                    <div class="formBtns">
+                                        <input type="submit" formaction="awaiting.php" value="awaiting">
+                                        <input type="submit" formaction="in-progress.php" value="In-progress">
+                                        <input type="submit" formaction="delivery.php" value="Out For Delivery">
                                     </div>
                                 </form>
                             </div>
@@ -262,7 +307,8 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     <div class="row">
                         <div class="col-sm-12 col-md-6">
                             <h6>About</h6>
-                            <p class="text-justify">Island Goodness is dedicated to providing top-notch food and service,
+                            <p class="text-justify">Island Goodness is dedicated to providing top-notch food and
+                                service,
                                 always accompanied by a warm smile. Our goal is to ensure that every customer enjoys
                                 high-quality cuisine and friendly hospitality.</p>
                         </div>

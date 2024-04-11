@@ -263,6 +263,9 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             <div id="headerLinks">
                 <a href="staffHome.php">Home</a>
                 <a href="updateMenu.php">Update Menu</a>
+                <?php if ($_SESSION['Position'] == 'management') { ?>
+                        <a href="reports.php">Reports</a>
+                    <?php } ?>
                 <a href="../customerPortal.php">Logout</a>
 
             </div>
