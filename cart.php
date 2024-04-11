@@ -367,8 +367,6 @@ include ("dbConn.php");
             <?php } ?>
 
             </div>
-
-            <!--PUT THE SUBMIT AND WHATEVER ELSE HERE-->
         </div>
     </div>
 
