@@ -259,6 +259,7 @@ include ("dbConn.php");
 
         <div id="content">
             <div id="contentCrt">
+                <?php if(isset($_SESSION['CustomerID'])) { ?>
                 <h1>YOUR CART</h1>
 
                 <?php if (isset($_GET['error'])) { ?>
@@ -361,6 +362,10 @@ include ("dbConn.php");
                         </div>
                     </form>
                 </div>
+            <?php } else { ?>
+                <h3>Login to see your cart!</h3>
+            <?php } ?>
+
             </div>
 
             <!--PUT THE SUBMIT AND WHATEVER ELSE HERE-->
