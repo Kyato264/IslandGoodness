@@ -19,35 +19,151 @@ include ("dbConn.php");
     <link rel="shortcut icon" href=images\IslandGoodnessLogoBlackNoWords.svg type="image/x-icon">
     <title>Template</title>
     <style>
+        * {
+            outline: none;
+        }
+        
         #content {
-                padding: 1.5em;
-            }
+            padding: 1.5em;
+        }
 
-            h1 {
-                padding-bottom: 1em;
-                padding-top: 1em;
-            }
+        h1 {
+            padding-bottom: 1em;
+            padding-top: 1em;
+        }
 
-            .sss {
-                width: 100%;
+        .sss {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5em;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            padding: 1.5em;
+            border-radius: 0.25em;
+            box-shadow: 0rem 0.25rem 0.5625rem 0rem rgba(0, 0, 0, 0.15);
+            transition: 0.2s ease-in-out;
+            gap: 1.5em;
+        }
+
+        .box:hover {
+            box-shadow: rgba(255, 210, 47, 0.4) -5px 5px, rgba(255, 219, 88, 0.3) -10px 10px;
+        }
+        
+        .formBtns {
                 display: flex;
-                flex-direction: row;
-                justify-content: center;
-                align-items: center;
-                gap: 1.5em;
-                flex-wrap: wrap;
+                justify-content: space-around;
+                padding: 20px 0px;
             }
 
-            .box {
-                padding: 1.5em;
-                border-radius: 0.25em;
-                box-shadow: 0rem 0.25rem 0.5625rem 0rem rgba(0, 0, 0, 0.15);
-                transition: 0.2s ease-in-out;
-                gap: 1.5em;
+            .formBtns input {
+                background: white;
+                color: #ffd22f;
+                border-style: solid;
+                border-color: #ffd22f;
+                height: 50px;
+                width: 100px;
+                text-shadow: none;
+                transition: 0.3s ease-in-out;
             }
 
-            .box:hover {
-                box-shadow: rgba(255, 210, 47, 0.4) -5px 5px, rgba(255, 219, 88, 0.3) -10px 10px;
+            .formBtns input:hover {
+                background-color: #ffd22f;
+                color: white;
+                box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+            }
+
+            .formBtns input:active {
+                transform: translate(0px, 10px);
+            }
+
+            .form-row {
+                display: flex;
+                margin: 32px 0;
+            }
+
+            .form-row .input-data {
+                width: 100%;
+                height: 40px;
+                position: relative;
+            }
+
+            .form-row .textarea {
+                height: 70px;
+            }
+
+            .input-data input,
+            .textarea textarea {
+                display: block;
+                width: 100%;
+                height: 100%;
+                border: none;
+                font-size: 17px;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+            }
+
+            .input-data input:focus~label,
+            .textarea textarea:focus~label,
+            .input-data input:valid~label,
+            .textarea textarea:valid~label {
+                transform: translateY(-20px);
+                font-size: 14px;
+                color: #ffd22f;
+                outline: none;
+            }
+
+            .textarea textarea {
+                resize: none;
+                padding-top: 10px;
+            }
+
+            .input-data label {
+                position: absolute;
+                pointer-events: none;
+                bottom: 10px;
+                font-size: 16px;
+                transition: all 0.3s ease;
+            }
+
+            .textarea label {
+                width: 100%;
+                bottom: 40px;
+                background: #fff;
+            }
+
+            .input-data .underline {
+                position: absolute;
+                bottom: 0;
+                height: 2px;
+                width: 100%;
+                z-index: 1;
+            }
+
+            .input-data .underline:before {
+                position: absolute;
+                content: "";
+                height: 2px;
+                width: 100%;
+                background: #ffd22f;
+                transform: scaleX(0);
+                transform-origin: center;
+                transition: transform 0.3s ease;
+            }
+
+            .input-data input:focus~.underline:before,
+            .input-data input:valid~.underline:before,
+            .textarea textarea:focus~.underline:before,
+            .textarea textarea:valid~.underline:before {
+                transform: scale(1);
+            }
+
+            #search {
+                display: flex;
+                gap: 1em;
             }
     </style>
 </head>
@@ -55,7 +171,7 @@ include ("dbConn.php");
 <body>
     <div id="crt">
         <div id="header">
-        <button id="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <button id="menu-toggle" onclick="toggleSidebar()">☰</button>
             <div id="iconAndName">
                 <a id="iconAndNameLink" href="index.php">
                     <img src="images\IslandGoodnessLogoBlack.svg" width="55px">
@@ -64,7 +180,7 @@ include ("dbConn.php");
 
             <div id="headerLinks">
                 <a href="index.php">Home</a>
-                
+
 
                 <?php if (isset($_SESSION['Email'])) { ?>
                     <a href="trackOrders.php">Track Orders</a>
@@ -85,18 +201,18 @@ include ("dbConn.php");
                 <?php } ?>
 
                 <a href="cart.php"><img src="images/cart.svg" alt="cart" width="20px">
-                <?php
-                        if(isset($_SESSION['CustomerID'])) {
-                            $customerID = $_SESSION['CustomerID'];
+                    <?php
+                    if (isset($_SESSION['CustomerID'])) {
+                        $customerID = $_SESSION['CustomerID'];
 
                         $query = "SELECT * FROM cart 
                                 WHERE CustomerID = $customerID";
                         $result = $conn->query($query);
-    
+
                         echo mysqli_num_rows($result);
-                        } else {
-                            echo 0;
-                        }
+                    } else {
+                        echo 0;
+                    }
                     ?>
                 </a>
 
@@ -104,56 +220,69 @@ include ("dbConn.php");
         </div>
 
         <div id="sidebar">
-                <div class="sideTop">
+            <div class="sideTop">
 
-                    <div class="userInfo">
-                        <div class="userNameCrt">
-                            <p><b>Hi there,</b></p>
-                            <h2>
-                                <?php if (isset($_SESSION['FirstName'])) { 
-                                   // echo $_SESSION['FirstName'];
-                                } else { ?>
+                <div class="userInfo">
+                    <div class="userNameCrt">
+                        <p><b>Hi there,</b></p>
+                        <h2>
+                            <?php if (isset($_SESSION['FirstName'])) {
+                            // echo $_SESSION['FirstName'];
+                        } else { ?>
 
                                 Guest User
 
-                                <?php } ?>
-                            </h2>
+                            <?php } ?>
+                        </h2>
+                    </div>
+                </div>
+
+                <button id="menu-Close" onclick="toggleClose()">&#10006;</button>
+            </div>
+
+            <div class="sidebarLinks">
+                <a href="index.php">Home</a>
+
+
+                <?php if (isset($_SESSION['Email'])) { ?>
+                    <a href="account.php">Account</a>
+                    <a href="trackOrders.php">Track Orders</a>
+                <?php } ?>
+
+                <?php if (!isset($_SESSION['Email'])) { ?>
+                    <div id="loginAndSignUp">
+                        <div id="login">
+                            <a href="login.php">Login</a>
+                        </div>
+
+                        <div id="signup">
+                            <a href="signup.php">Signup</a>
                         </div>
                     </div>
-
-                    <button id="menu-Close" onclick="toggleClose()">&#10006;</button>
-                </div>
-
-                <div class="sidebarLinks">
-                    <a href="index.php">Home</a>
-                    
-
-                    <?php if (isset($_SESSION['Email'])) { ?>
-                        <a href="account.php">Account</a>
-                        <a href="trackOrders.php">Track Orders</a>
-                    <?php } ?>
-
-                    <?php if (!isset($_SESSION['Email'])) { ?>
-                        <div id="loginAndSignUp">
-                            <div id="login">
-                                <a href="login.php">Login</a>
-                            </div>
-
-                            <div id="signup">
-                                <a href="signup.php">Signup</a>
-                            </div>
-                        </div>
-                    <?php } ?>
-                </div>
+                <?php } ?>
             </div>
+        </div>
 
 
         <div id="content">
-        <h1>Your Current Orders</h1>
-                <div id="userOrders" class="sss">
-                    
+            <form action="orderSearch.php" id="search" method="post">
+                <div class="form-row">
+                    <div class="input-data">
+                        <input type="text" name="name" required>
+                        <div class="underline"></div>
+                        <label for="name">Search orders</label>
+                    </div>
+                </div>
 
-                    <?php $sql = "SELECT 
+                <div class="formBtns">
+                    <input type="submit" value="Search &#128269">
+                </div>
+            </form>
+            <h1>Your Current Orders</h1>
+            <div id="userOrders" class="sss">
+
+
+                <?php $sql = "SELECT 
             orders.OrderID, 
             orders.TimeStamp,
             orders.Status, 
@@ -171,22 +300,22 @@ include ("dbConn.php");
         ORDER BY 
         orders.Status";
 
-                    $result = $conn->query($sql);
+                $result = $conn->query($sql);
 
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            ?>
-                            <div id="newOrder" class="box">
-                                <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
-                                <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
-                                <h3>Order Status: <?php echo $row['Status']; ?></h3>
-                                <h3>Order Items:</h3>
-                                <h4><?php echo $row['OrderItems']; ?></h4>
-                            </div>
-                        <?php }
-                    }
-                    ?>
-                </div>
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        ?>
+                        <div id="newOrder" class="box">
+                            <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
+                            <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
+                            <h3>Order Status: <?php echo $row['Status']; ?></h3>
+                            <h3>Order Items:</h3>
+                            <h4><?php echo $row['OrderItems']; ?></h4>
+                        </div>
+                    <?php }
+                }
+                ?>
+            </div>
         </div>
 
         <footer class="site-footer">
@@ -194,10 +323,12 @@ include ("dbConn.php");
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <h6>About</h6>
-                        <p class="text-justify">Island Goodness is dedicated to providing top-notch food and service, always accompanied by a warm smile. Our goal is to ensure that every customer enjoys high-quality cuisine and friendly hospitality.</p>
+                        <p class="text-justify">Island Goodness is dedicated to providing top-notch food and service,
+                            always accompanied by a warm smile. Our goal is to ensure that every customer enjoys
+                            high-quality cuisine and friendly hospitality.</p>
                     </div>
 
-                    
+
                     <div class="col-xs-6 col-md-3">
                         <h6>Quick Links</h6>
                         <ul class="footer-links">

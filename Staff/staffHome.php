@@ -22,6 +22,9 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
         <link rel="shortcut icon" href=../images\IslandGoodnessLogoBlackNoWords.svg type="image/x-icon">
         <title>Staff Home</title>
         <style>
+            * {
+                outline: none;
+            }
             #content {
                 padding: 1.5em;
             }
@@ -54,7 +57,6 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             }
 
             .formBtns {
-                width: 100%;
                 display: flex;
                 justify-content: space-around;
                 padding: 20px 0px;
@@ -79,6 +81,91 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
 
             .formBtns input:active {
                 transform: translate(0px, 10px);
+            }
+
+            .form-row {
+                display: flex;
+                margin: 32px 0;
+            }
+
+            .form-row .input-data {
+                width: 100%;
+                height: 40px;
+                position: relative;
+            }
+
+            .form-row .textarea {
+                height: 70px;
+            }
+
+            .input-data input,
+            .textarea textarea {
+                display: block;
+                width: 100%;
+                height: 100%;
+                border: none;
+                font-size: 17px;
+                border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+            }
+
+            .input-data input:focus~label,
+            .textarea textarea:focus~label,
+            .input-data input:valid~label,
+            .textarea textarea:valid~label {
+                transform: translateY(-20px);
+                font-size: 14px;
+                color: #ffd22f;
+                outline: none;
+            }
+
+            .textarea textarea {
+                resize: none;
+                padding-top: 10px;
+            }
+
+            .input-data label {
+                position: absolute;
+                pointer-events: none;
+                bottom: 10px;
+                font-size: 16px;
+                transition: all 0.3s ease;
+            }
+
+            .textarea label {
+                width: 100%;
+                bottom: 40px;
+                background: #fff;
+            }
+
+            .input-data .underline {
+                position: absolute;
+                bottom: 0;
+                height: 2px;
+                width: 100%;
+                z-index: 1;
+            }
+
+            .input-data .underline:before {
+                position: absolute;
+                content: "";
+                height: 2px;
+                width: 100%;
+                background: #ffd22f;
+                transform: scaleX(0);
+                transform-origin: center;
+                transition: transform 0.3s ease;
+            }
+
+            .input-data input:focus~.underline:before,
+            .input-data input:valid~.underline:before,
+            .textarea textarea:focus~.underline:before,
+            .textarea textarea:valid~.underline:before {
+                transform: scale(1);
+            }
+
+            #search {
+                display: flex;
+                gap: 1em;
             }
         </style>
     </head>
@@ -134,13 +221,16 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
 
 
             <div id="content">
+
                 <h1>New Orders</h1>
                 <div id="newOrders" class="sss">
 
 
                     <?php $sql = "SELECT 
             orders.OrderID, 
-            orders.TimeStamp, 
+            orders.TimeStamp,
+            customer.FirstName,
+            customer.LastName,
             GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
         FROM 
             orders
@@ -148,10 +238,12 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             orderitems ON orderitems.OrderID = orders.OrderID
         INNER JOIN 
             fooditem ON fooditem.ItemID = orderitems.ItemID
+        INNER JOIN 
+        	customer ON customer.CustomerID = orders.CustomerID
         WHERE 
             orders.Status = 'awaiting'
         GROUP BY 
-            orders.OrderID";
+            orders.OrderID;";
 
                     $result = $conn->query($sql);
 
@@ -160,6 +252,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                             ?>
                             <div id="newOrder" class="box">
                                 <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
+                                <h3>Customer Name: <?php echo $row['FirstName'] . " " . $row['LastName']; ?></h3>
                                 <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
                                 <h3>Order Items:</h3>
                                 <h4><?php echo $row['OrderItems']; ?></h4>
@@ -182,6 +275,8 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     <?php $sql = "SELECT 
             orders.OrderID, 
             orders.TimeStamp, 
+            customer.FirstName,
+            customer.LastName,
             GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
         FROM 
             orders
@@ -189,6 +284,8 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             orderitems ON orderitems.OrderID = orders.OrderID
         INNER JOIN 
             fooditem ON fooditem.ItemID = orderitems.ItemID
+        INNER JOIN 
+        	customer ON customer.CustomerID = orders.CustomerID
         WHERE 
             orders.Status = 'In-progress'
         GROUP BY 
@@ -201,6 +298,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                             ?>
                             <div id="newOrder" class="box">
                                 <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
+                                <h3>Customer Name: <?php echo $row['FirstName'] . " " . $row['LastName']; ?></h3>
                                 <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
                                 <h3>Order Items:</h3>
                                 <h4><?php echo $row['OrderItems']; ?></h4>
@@ -223,6 +321,8 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     <?php $sql = "SELECT 
             orders.OrderID, 
             orders.TimeStamp, 
+            customer.FirstName,
+            customer.LastName,
             GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
         FROM 
             orders
@@ -230,6 +330,8 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             orderitems ON orderitems.OrderID = orders.OrderID
         INNER JOIN 
             fooditem ON fooditem.ItemID = orderitems.ItemID
+        INNER JOIN 
+        	customer ON customer.CustomerID = orders.CustomerID
         WHERE 
             orders.Status = 'Delivery'
         GROUP BY 
@@ -242,6 +344,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                             ?>
                             <div id="newOrder" class="box">
                                 <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
+                                <h3>Customer Name: <?php echo $row['FirstName'] . " " . $row['LastName']; ?></h3>
                                 <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
                                 <h3>Order Items:</h3>
                                 <h4><?php echo $row['OrderItems']; ?></h4>
@@ -265,6 +368,8 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             orders.OrderID, 
             orders.TimeStamp,
             orders.CompletedTime, 
+            customer.FirstName,
+            customer.LastName,
             GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
         FROM 
             orders
@@ -272,6 +377,8 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             orderitems ON orderitems.OrderID = orders.OrderID
         INNER JOIN 
             fooditem ON fooditem.ItemID = orderitems.ItemID 
+        INNER JOIN 
+        	customer ON customer.CustomerID = orders.CustomerID
             WHERE DATE(CompletedTime) = DATE(CompletedTime)
         GROUP BY 
             orders.OrderID";
@@ -283,6 +390,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                             ?>
                             <div id="newOrder" class="box">
                                 <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
+                                <h3>Customer Name: <?php echo $row['FirstName'] . " " . $row['LastName']; ?></h3>
                                 <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
                                 <h3>Time Completed: <?php echo $row['CompletedTime']; ?></h3>
                                 <h3>Order Items:</h3>

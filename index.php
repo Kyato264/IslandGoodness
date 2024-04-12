@@ -33,6 +33,7 @@ include ("dbConn.php");
 
             <div id="headerLinks">
                 <a href="index.php">Home</a>
+                <a href="faq.php">FAQ</a>
                 
 
                 <?php if (isset($_SESSION['Email'])) { ?>
@@ -95,6 +96,7 @@ include ("dbConn.php");
 
             <div class="sidebarLinks">
                 <a href="index.php">Home</a>
+                <a href="faq.php">FAQ</a>
                 
 
                 <?php if (isset($_SESSION['Email'])) { ?>
