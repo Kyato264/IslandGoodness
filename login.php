@@ -131,6 +131,7 @@ session_start();
     }
 
     input[type="email"],
+    input[type="text"],
     input[type="password"] {
       width: 100%;
       padding: 12px 20px;
@@ -145,6 +146,7 @@ session_start();
     }
 
     input[type="email"]:focus,
+    input[type="text"],
     input[type="password"]:focus {
       border: 2px rgb(	255, 210, 47) solid;
     }
