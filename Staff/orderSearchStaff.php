@@ -15,13 +15,23 @@ if (isset($_POST['name'])) {
 
     $result = mysqli_query($conn, $sql);
 
-    while ($row = mysqli_fetch_assoc($result)) {
-        if (($row['OrderID'] == $searchTerm) || ($row['FullName'] == $searchTerm)) {
-            $OrderID = $row['OrderID'];
-            header("Location:searchResult.php?$OrderID");
+    $matchedOrderIDs = array();
+
+while ($row = mysqli_fetch_assoc($result)) {
+    if (($row['OrderID'] == $searchTerm) || ($row['FullName'] == $searchTerm)) {
+        $matchedOrderIDs[] = $row['OrderID'];
+    }
+}
+
+// Redirect to search results if any matching orders found
+if (!empty($matchedOrderIDs)) {
+    // Serialize the array of matched order IDs
+    $serializedOrderIDs = serialize($matchedOrderIDs);
+    
+    // Redirect to a search results page passing the serialized array
+    header("Location:searchOrder.php?matchedOrderIDs=$serializedOrderIDs");
             exit();
         }
     }
-    header("Location:searchResult.php?error=No order found!");
+    header("Location:searchOrder.php?error=No order found!");
     exit();
-}

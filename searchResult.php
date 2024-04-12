@@ -49,6 +49,15 @@ include ("dbConn.php");
         .box:hover {
             box-shadow: rgba(255, 210, 47, 0.4) -5px 5px, rgba(255, 219, 88, 0.3) -10px 10px;
         }
+
+        .error {
+      background-color: #F2DEDE;
+      color: #A94442;
+      padding: 10px;
+      width: 95%;
+      border-radius: 5px;
+      text-align: center;
+    }
     </style>
 </head>
 
@@ -154,9 +163,10 @@ include ("dbConn.php");
 
 
                 <?php
-                $orderID = $_GET['orderID'];
+                if (isset($_GET['orderID'])) {
+                    $orderID = $_GET['orderID'];
 
-                $sql = "SELECT 
+                    $sql = "SELECT 
                         orders.OrderID, 
 orders.TimeStamp,
 orders.Status, 
@@ -174,19 +184,26 @@ orders.OrderID
 ORDER BY 
 orders.Status";
 
-                $result = $conn->query($sql);
+                    $result = $conn->query($sql);
 
-                if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
-                        ?>
-                        <div id="newOrder" class="box">
-                            <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
-                            <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
-                            <h3>Order Status: <?php echo $row['Status']; ?></h3>
-                            <h3>Order Items:</h3>
-                            <h4><?php echo $row['OrderItems']; ?></h4>
-                        </div>
-                    <?php }
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            ?>
+                            <div id="newOrder" class="box">
+                                <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
+                                <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
+                                <h3>Order Status: <?php echo $row['Status']; ?></h3>
+                                <h3>Order Items:</h3>
+                                <h4><?php echo $row['OrderItems']; ?></h4>
+                            </div>
+                        <?php }
+                    }
+                } else {
+                    if (isset($_GET['error'])) { ?>
+                        <p class="error">
+                          <?php echo $_GET['error']; ?>
+                        </p>
+                      <?php }
                 }
                 ?>
             </div>

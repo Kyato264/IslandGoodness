@@ -275,7 +275,7 @@ include ("dbConn.php");
                 </div>
 
                 <div class="formBtns">
-                    <input type="submit" value="Search &#128269">
+                    <input type="submit" value="Search">
                 </div>
             </form>
             <h1>Your Current Orders</h1>

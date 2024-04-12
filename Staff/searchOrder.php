@@ -38,7 +38,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                 background-color: white;
                 padding: 1.5em;
                 border-radius: 0.25em;
-                box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+                box-shadow: 0rem 0.25rem 0.5625rem 0rem rgba(0, 0, 0, 0.15);
                 gap: 1.5em;
             }
 
@@ -72,6 +72,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             .form-row {
                 display: flex;
                 margin: 32px 0;
+                width: 100%;
             }
 
             .form-row .input-data {
@@ -151,8 +152,30 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
 
             #search {
                 display: flex;
-                flex-direction: column;
+                flex-direction: row;
                 width: 100%;
+            }
+
+            .sss {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                gap: 1.5em;
+                flex-wrap: wrap;
+            }
+
+            .box {
+                padding: 1.5em;
+                border-radius: 0.25em;
+                box-shadow: 0rem 0.25rem 0.5625rem 0rem rgba(0, 0, 0, 0.15);
+                transition: 0.2s ease-in-out;
+                gap: 1.5em;
+            }
+
+            .box:hover {
+                box-shadow: rgba(255, 210, 47, 0.4) -5px 5px, rgba(255, 219, 88, 0.3) -10px 10px;
             }
         </style>
     </head>
@@ -211,21 +234,74 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             <div id="content">
 
                 <div id="contentCrt">
-                <form action="orderSearchStaff.php" id="search" method="post">
-                <div class="form-row">
-                    <div class="input-data">
-                        <input type="text" name="name" required>
-                        <div class="underline"></div>
-                        <label for="name">Search orders</label>
+                    <form action="orderSearchStaff.php" id="search" method="post">
+                        <div class="form-row">
+                            <div class="input-data">
+                                <input type="text" name="name" required>
+                                <div class="underline"></div>
+                                <label for="name">Search orders</label>
+                            </div>
+                        </div>
+
+                        <div class="formBtns">
+                            <input type="submit" value="Search">
+                        </div>
+                    </form>
+
+                    <div id="results" class="sss">
+                        <?php
+                        if (isset($_GET['matchedOrderIDs'])) { ?>
+                            <h2>Results</h2>
+                           <?php // Unserialize the array of matched order IDs
+                            $matchedOrderIDs = unserialize($_GET['matchedOrderIDs']);
+
+                            // Loop through each matched order ID
+                            foreach ($matchedOrderIDs as $orderID) {
+                                $sql = "SELECT 
+                                    orders.OrderID, 
+                                    orders.TimeStamp,
+                                    orders.Status, 
+                                    GROUP_CONCAT(CONCAT(fooditem.Name, ' (', orderitems.Quantity, ')') SEPARATOR '<br>') AS OrderItems
+                                    FROM 
+                                    orders
+                                    INNER JOIN 
+                                    orderitems ON orderitems.OrderID = orders.OrderID
+                                    INNER JOIN 
+                                    fooditem ON fooditem.ItemID = orderitems.ItemID
+                                    WHERE 
+                                    orders.OrderID = $orderID
+                                    GROUP BY 
+                                    orders.OrderID
+                                    ORDER BY 
+                                    orders.Status";
+
+                                $result = $conn->query($sql);
+
+                                if ($result->num_rows > 0) {
+                                    while ($row = $result->fetch_assoc()) {
+                                        ?>
+                                        <div id="newOrder" class="box">
+                                            <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
+                                            <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
+                                            <h3>Order Status: <?php echo $row['Status']; ?></h3>
+                                            <h3>Order Items:</h3>
+                                            <h4><?php echo $row['OrderItems']; ?></h4>
+                                        </div>
+                                        <?php
+                                    }
+                                }
+                            }
+                        } else {
+                            if (isset($_GET['error'])) { ?>
+                                <p class="error">
+                                    <?php echo $_GET['error']; ?>
+                                </p>
+                            <?php }
+                        }
+                        ?>
                     </div>
                 </div>
 
-                <div class="formBtns">
-                    <input type="submit" value="Search">
-                </div>
-            </form>
-                </div>
-                
             </div>
 
             <footer class="site-footer">
