@@ -1,5 +1,5 @@
 <?php
-include ("dbConn.php");
+include ("../dbConn.php");
 
 session_start();
 
@@ -16,9 +16,9 @@ if (isset($_POST['name'])) {
     $result = mysqli_query($conn, $sql);
 
     while ($row = mysqli_fetch_assoc($result)) {
-        if ($row['OrderID'] == $searchTerm) {
+        if (($row['OrderID'] == $searchTerm) || ($row['FullName'] == $searchTerm)) {
             $OrderID = $row['OrderID'];
-            header("Location:searchResult.php?orderID=$OrderID");
+            header("Location:searchResult.php?$OrderID");
             exit();
         }
     }
