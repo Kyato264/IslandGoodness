@@ -37,4 +37,3 @@ mysqli_query($conn, $query);
 
 header("Location: orderConfirmation.php");
 exit();
-

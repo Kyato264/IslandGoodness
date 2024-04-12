@@ -180,7 +180,7 @@ include ("dbConn.php");
                     echo $row['OrderID']; ?>
                 </h2>
 
-                <h3>An conformation email will be sent to you shortly.</h3>
+                <h3>You order will be started shortly!</h3>
 
                 <h3>Thank you for your Purchase!</h3>
             </div>

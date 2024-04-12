@@ -428,7 +428,7 @@
                                     </div>
                                     <div id="input">
                                         <label for="phoneNo"><b>Phone Number</b></label>
-                                        <input type="tel" placeholder="Enter Phone Number" maxlength="10" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phoneNo" />
+                                        <input type="tel" placeholder="Enter Phone Number" maxlength="12" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phoneNo" />
                                     </div>
                                 </div>
 
