@@ -25,6 +25,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
             * {
                 outline: none;
             }
+
             #content {
                 padding: 1.5em;
             }
@@ -49,7 +50,13 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                 border-radius: 0.25em;
                 box-shadow: 0rem 0.25rem 0.5625rem 0rem rgba(0, 0, 0, 0.15);
                 transition: 0.2s ease-in-out;
-                gap: 1.5em;
+                height: 235px;
+
+            }
+
+            .box.expanded {
+                height: auto;
+                cursor: pointer;
             }
 
             .box:hover {
@@ -167,6 +174,14 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                 display: flex;
                 gap: 1em;
             }
+
+            .orderItemsContainer {
+                display: none;
+            }
+
+            .orderItemsContainer.expanded {
+                display: block;
+            }
         </style>
     </head>
 
@@ -242,7 +257,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
         INNER JOIN 
         	customer ON customer.CustomerID = orders.CustomerID
         WHERE 
-            orders.Status = 'awaiting'
+            orders.Status = 'Awaiting'
         GROUP BY 
             orders.OrderID;";
 
@@ -255,8 +270,10 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                                 <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
                                 <h3>Customer Name: <?php echo $row['FirstName'] . " " . $row['LastName']; ?></h3>
                                 <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
-                                <h3>Order Items:</h3>
-                                <h4><?php echo $row['OrderItems']; ?></h4>
+                                <div class="orderItemsContainer">
+                                    <h3>Order Items:</h3>
+                                    <h4 class="orderItems"><?php echo $row['OrderItems']; ?></h4>
+                                </div>
                                 <form action="" method="POST">
                                     <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
                                     <div class="formBtns">
@@ -301,12 +318,14 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                                 <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
                                 <h3>Customer Name: <?php echo $row['FirstName'] . " " . $row['LastName']; ?></h3>
                                 <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
-                                <h3>Order Items:</h3>
-                                <h4><?php echo $row['OrderItems']; ?></h4>
+                                <div class="orderItemsContainer">
+                                    <h3>Order Items:</h3>
+                                    <h4 class="orderItems"><?php echo $row['OrderItems']; ?></h4>
+                                </div>
                                 <form action="" method="POST">
                                     <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
                                     <div class="formBtns">
-                                        <input type="submit" formaction="awaiting.php" value="awaiting">
+                                        <input type="submit" formaction="awaiting.php" value="Awaiting">
                                         <input type="submit" formaction="delivery.php" value="Out For Delivery">
                                         <input type="submit" formaction="Completed.php" value="Completed">
                                     </div>
@@ -317,7 +336,7 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                     ?>
                 </div>
 
-                <h1>Our For Delivery</h1>
+                <h1>Out For Delivery</h1>
                 <div id="outForDelivery" class="sss">
                     <?php $sql = "SELECT 
             orders.OrderID, 
@@ -347,12 +366,14 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                                 <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
                                 <h3>Customer Name: <?php echo $row['FirstName'] . " " . $row['LastName']; ?></h3>
                                 <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
-                                <h3>Order Items:</h3>
-                                <h4><?php echo $row['OrderItems']; ?></h4>
+                                <div class="orderItemsContainer">
+                                    <h3>Order Items:</h3>
+                                    <h4 class="orderItems"><?php echo $row['OrderItems']; ?></h4>
+                                </div>
                                 <form action="" method="POST">
                                     <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
                                     <div class="formBtns">
-                                        <input type="submit" formaction="awaiting.php" value="awaiting">
+                                        <input type="submit" formaction="awaiting.php" value="Awaiting">
                                         <input type="submit" formaction="in-progress.php" value="In-progress">
                                         <input type="submit" formaction="Completed.php" value="Completed">
                                     </div>
@@ -394,12 +415,14 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
                                 <h3>Customer Name: <?php echo $row['FirstName'] . " " . $row['LastName']; ?></h3>
                                 <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
                                 <h3>Time Completed: <?php echo $row['CompletedTime']; ?></h3>
-                                <h3>Order Items:</h3>
-                                <h4><?php echo $row['OrderItems']; ?></h4>
+                                <div class="orderItemsContainer">
+                                    <h3>Order Items:</h3>
+                                    <h4 class="orderItems"><?php echo $row['OrderItems']; ?></h4>
+                                </div>
                                 <form action="" method="POST">
                                     <input type="hidden" name="OrderID" value="<?php echo $row['OrderID']; ?>">
                                     <div class="formBtns">
-                                        <input type="submit" formaction="awaiting.php" value="awaiting">
+                                        <input type="submit" formaction="awaiting.php" value="Awaiting">
                                         <input type="submit" formaction="in-progress.php" value="In-progress">
                                         <input type="submit" formaction="delivery.php" value="Out For Delivery">
                                     </div>
@@ -447,6 +470,16 @@ if (isset($_SESSION["StaffID"]) && isset($_SESSION["UserName"])) {
         </div>
         </footer>
         </div>
+        <script>
+            const boxes = document.querySelectorAll('.box');
+
+            boxes.forEach(box => {
+                box.addEventListener('click', function () {
+                    this.querySelector('.orderItemsContainer').classList.toggle('expanded');
+                });
+            });
+
+        </script>
         <script src="../script.js"></script>
     </body>
 
