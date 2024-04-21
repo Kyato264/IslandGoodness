@@ -17,12 +17,12 @@ include ("dbConn.php");
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,700;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
     <link rel="shortcut icon" href=images\IslandGoodnessLogoBlackNoWords.svg type="image/x-icon">
-    <title>Template</title>
+    <title>Orders</title>
     <style>
         * {
             outline: none;
         }
-        
+
         #content {
             padding: 1.5em;
         }
@@ -53,118 +53,126 @@ include ("dbConn.php");
         .box:hover {
             box-shadow: rgba(255, 210, 47, 0.4) -5px 5px, rgba(255, 219, 88, 0.3) -10px 10px;
         }
-        
+
         .formBtns {
-                display: flex;
-                justify-content: space-around;
-                padding: 20px 0px;
-            }
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0px;
+        }
 
-            .formBtns input {
-                background: white;
-                color: #ffd22f;
-                border-style: solid;
-                border-color: #ffd22f;
-                height: 50px;
-                width: 100px;
-                text-shadow: none;
-                transition: 0.3s ease-in-out;
-            }
+        .formBtns input {
+            background: white;
+            color: #ffd22f;
+            border-style: solid;
+            border-color: #ffd22f;
+            height: 50px;
+            width: 100px;
+            text-shadow: none;
+            transition: 0.3s ease-in-out;
+        }
 
-            .formBtns input:hover {
-                background-color: #ffd22f;
-                color: white;
-                box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
-            }
+        .formBtns input:hover {
+            background-color: #ffd22f;
+            color: white;
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+        }
 
-            .formBtns input:active {
-                transform: translate(0px, 10px);
-            }
+        .formBtns input:active {
+            transform: translate(0px, 10px);
+        }
 
-            .form-row {
-                display: flex;
-                margin: 32px 0;
-            }
+        .form-row {
+            display: flex;
+            margin: 32px 0;
+        }
 
-            .form-row .input-data {
-                width: 100%;
-                height: 40px;
-                position: relative;
-            }
+        .form-row .input-data {
+            width: 100%;
+            height: 40px;
+            position: relative;
+        }
 
-            .form-row .textarea {
-                height: 70px;
-            }
+        .form-row .textarea {
+            height: 70px;
+        }
 
-            .input-data input,
-            .textarea textarea {
-                display: block;
-                width: 100%;
-                height: 100%;
-                border: none;
-                font-size: 17px;
-                border-bottom: 2px solid rgba(0, 0, 0, 0.12);
-            }
+        .input-data input,
+        .textarea textarea {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: none;
+            font-size: 17px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.12);
+        }
 
-            .input-data input:focus~label,
-            .textarea textarea:focus~label,
-            .input-data input:valid~label,
-            .textarea textarea:valid~label {
-                transform: translateY(-20px);
-                font-size: 14px;
-                color: #ffd22f;
-                outline: none;
-            }
+        .input-data input:focus~label,
+        .textarea textarea:focus~label,
+        .input-data input:valid~label,
+        .textarea textarea:valid~label {
+            transform: translateY(-20px);
+            font-size: 14px;
+            color: #ffd22f;
+            outline: none;
+        }
 
-            .textarea textarea {
-                resize: none;
-                padding-top: 10px;
-            }
+        .textarea textarea {
+            resize: none;
+            padding-top: 10px;
+        }
 
-            .input-data label {
-                position: absolute;
-                pointer-events: none;
-                bottom: 10px;
-                font-size: 16px;
-                transition: all 0.3s ease;
-            }
+        .input-data label {
+            position: absolute;
+            pointer-events: none;
+            bottom: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
 
-            .textarea label {
-                width: 100%;
-                bottom: 40px;
-                background: #fff;
-            }
+        .textarea label {
+            width: 100%;
+            bottom: 40px;
+            background: #fff;
+        }
 
-            .input-data .underline {
-                position: absolute;
-                bottom: 0;
-                height: 2px;
-                width: 100%;
-                z-index: 1;
-            }
+        .input-data .underline {
+            position: absolute;
+            bottom: 0;
+            height: 2px;
+            width: 100%;
+            z-index: 1;
+        }
 
-            .input-data .underline:before {
-                position: absolute;
-                content: "";
-                height: 2px;
-                width: 100%;
-                background: #ffd22f;
-                transform: scaleX(0);
-                transform-origin: center;
-                transition: transform 0.3s ease;
-            }
+        .input-data .underline:before {
+            position: absolute;
+            content: "";
+            height: 2px;
+            width: 100%;
+            background: #ffd22f;
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
 
-            .input-data input:focus~.underline:before,
-            .input-data input:valid~.underline:before,
-            .textarea textarea:focus~.underline:before,
-            .textarea textarea:valid~.underline:before {
-                transform: scale(1);
-            }
+        .input-data input:focus~.underline:before,
+        .input-data input:valid~.underline:before,
+        .textarea textarea:focus~.underline:before,
+        .textarea textarea:valid~.underline:before {
+            transform: scale(1);
+        }
 
-            #search {
-                display: flex;
-                gap: 1em;
-            }
+        #search {
+            display: flex;
+            gap: 1em;
+        }
+
+        .orderItemsContainer {
+            display: none;
+        }
+
+        .orderItemsContainer.expanded {
+            display: block;
+        }
     </style>
 </head>
 
@@ -180,6 +188,7 @@ include ("dbConn.php");
 
             <div id="headerLinks">
                 <a href="index.php">Home</a>
+                <a href="faq.php">FAQ</a>
 
 
                 <?php if (isset($_SESSION['Email'])) { ?>
@@ -309,8 +318,10 @@ include ("dbConn.php");
                             <h2>Order Number: <?php echo $row['OrderID']; ?></h2>
                             <h3>Time Placed: <?php echo $row['TimeStamp']; ?></h3>
                             <h3>Order Status: <?php echo $row['Status']; ?></h3>
-                            <h3>Order Items:</h3>
-                            <h4><?php echo $row['OrderItems']; ?></h4>
+                            <div class="orderItemsContainer">
+                                <h3>Order Items:</h3>
+                                <h4 class="orderItems"><?php echo $row['OrderItems']; ?></h4>
+                            </div>
                         </div>
                     <?php }
                 }
@@ -356,7 +367,17 @@ include ("dbConn.php");
     </div>
     </footer>
     </div>
-    <script src="script.js"></script>
+    <script>
+        const boxes = document.querySelectorAll('.box');
+
+        boxes.forEach(box => {
+            box.addEventListener('click', function () {
+                this.querySelector('.orderItemsContainer').classList.toggle('expanded');
+            });
+        });
+
+    </script>
+    <script src="../script.js"></script>
 </body>
 
 </html>
