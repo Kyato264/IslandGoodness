@@ -1,6 +1,6 @@
 <?php
 session_start();
-include ("dbConn.php");
+include "dbConn.php";
 ?>
 
 <!DOCTYPE html>
@@ -34,15 +34,15 @@ include ("dbConn.php");
             <div id="headerLinks">
                 <a href="index.php">Home</a>
                 <a href="faq.php">FAQ</a>
-                
 
-                <?php if (isset($_SESSION['Email'])) { ?>
+
+                <?php if (isset($_SESSION["Email"])) { ?>
                     <a href="trackOrders.php">Track Orders</a>
                     <a href="account.php">Account</a>
-		<a href="logout.php">logout</a>
+                    <a href="logout.php">Logout</a>
                 <?php } ?>
 
-                <?php if (!isset($_SESSION['Email'])) { ?>
+                <?php if (!isset($_SESSION["Email"])) { ?>
                     <div id="loginAndSignUp">
                         <div id="login">
                             <a href="login.php">Login</a>
@@ -55,19 +55,17 @@ include ("dbConn.php");
                 <?php } ?>
 
                 <a href="cart.php"><img src="images/cart.svg" alt="cart" width="20px">
-                    <?php
-                        if(isset($_SESSION['CustomerID'])) {
-                            $customerID = $_SESSION['CustomerID'];
+                    <?php if (isset($_SESSION["CustomerID"])) {
+                        $customerID = $_SESSION["CustomerID"];
 
                         $query = "SELECT * FROM cart 
                                 WHERE CustomerID = $customerID";
                         $result = $conn->query($query);
-    
+
                         echo mysqli_num_rows($result);
-                        } else {
-                            echo 0;
-                        }
-                    ?>
+                    } else {
+                        echo 0;
+                    } ?>
                 </a>
 
             </div>
@@ -80,13 +78,15 @@ include ("dbConn.php");
                     <div class="userNameCrt">
                         <p><b>Hi there,</b></p>
                         <h2>
-                            <?php if (isset($_SESSION['FirstName'])) {
+                            <?php if (isset($_SESSION["FirstName"])) {
                             // echo $_SESSION['FirstName'];
-                        } else { ?>
+                        } else {
+                            ?>
 
                                 Guest User
 
-                            <?php } ?>
+                                <?php
+                        } ?>
                         </h2>
                     </div>
                 </div>
@@ -97,15 +97,15 @@ include ("dbConn.php");
             <div class="sidebarLinks">
                 <a href="index.php">Home</a>
                 <a href="faq.php">FAQ</a>
-                
 
-                <?php if (isset($_SESSION['Email'])) { ?>
+
+                <?php if (isset($_SESSION["Email"])) { ?>
                     <a href="trackOrders.php">Track Orders</a>
                     <a href="account.php">Account</a>
                     <a href="logout.php">Logout</a>
                 <?php } ?>
 
-                <?php if (!isset($_SESSION['Email'])) { ?>
+                <?php if (!isset($_SESSION["Email"])) { ?>
                     <div id="loginAndSignUp">
                         <div id="login">
                             <a href="login.php">Login</a>
@@ -156,7 +156,8 @@ include ("dbConn.php");
                     </div>
                     <div id="items">
                         <?php
-                        $query = "SELECT * FROM fooditem WHERE Category = 'soup'";
+                        $query =
+                            "SELECT * FROM fooditem WHERE Category = 'soup'";
                         $result = $conn->query($query);
 
                         // Check if query executed successfully
@@ -166,19 +167,27 @@ include ("dbConn.php");
                             // Iterate through the result set
                             while ($row = $result->fetch_assoc()) {
                                 // Generate links for each menu item
-                                $encodedName = urlencode($row['Name']);
-                                echo '<a href="menuItemDetails.php?Name=' . $encodedName . '">';
+                                $encodedName = urlencode($row["Name"]);
+                                echo '<a href="menuItemDetails.php?Name=' .
+                                    $encodedName .
+                                    '">';
                                 echo '<div id="menuItem">';
                                 echo '<div id="menuItemImg">';
-                                echo '<img src="data:image/jpeg;base64, ' . $row['Image'] . '" alt="' . $row['Name'] . '">';
-                                echo '</div>';
+                                echo '<img src="data:image/jpeg;base64, ' .
+                                    $row["Image"] .
+                                    '" alt="' .
+                                    $row["Name"] .
+                                    '">';
+                                echo "</div>";
                                 echo '<div id="menuItemInfo">';
-                                echo '<h3>' . $row["Name"] . '</h3>';
-                                echo '<h4 style="color: rgba(73, 73, 73, 1);">BBD$ ' . $row['Price'] . '</h4>';
+                                echo "<h3>" . $row["Name"] . "</h3>";
+                                echo '<h4 style="color: rgba(73, 73, 73, 1);">BBD$ ' .
+                                    $row["Price"] .
+                                    "</h4>";
                                 echo '<div id="addToCart"><img src="images/addToCart.svg"></div>';
-                                echo '</div>';
-                                echo '</div>';
-                                echo '</a>';
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</a>";
                             }
                         }
                         ?>
@@ -200,30 +209,34 @@ include ("dbConn.php");
                             echo "Error: " . $mysqli->error;
                         } else {
                             // Iterate through the result set
-                            while ($row = $result->fetch_assoc()) { ?>
-                                <div id="menuItem">
-                                    <div id="menuItemImg">
-                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
-                                            alt="<?php echo $row['Name']; ?>">
-                                    </div>
-
-                                    <div id="menuItemInfo">
-                                        <h3>
-                                            <?php echo $row["Name"]; ?>
-                                        </h3>
-
-                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
-                                            <?php echo $row['Price']; ?>
-                                        </h4>
-
-                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
-                                    </div>
-                                </div>
-                            <?php }
+                            while ($row = $result->fetch_assoc()) {
+                                //the original code you had here didnt work for onclick so i just copied and pasted the soups code throughout
+                                // Generate links foAr each menu item
+                                $encodedName = urlencode($row["Name"]);
+                                echo '<a href="menuItemDetails.php?Name=' . $encodedName . '">';
+                                echo '<div id="menuItem">';
+                                echo '<div id="menuItemImg">';
+                                echo '<img src="data:image/jpeg;base64, ' .
+                                    $row["Image"] .
+                                    '" alt="' .
+                                    $row["Name"] .
+                                    '">';
+                                echo "</div>";
+                                echo '<div id="menuItemInfo">';
+                                echo "<h3>" . $row["Name"] . "</h3>";
+                                echo '<h4 style="color: rgba(73, 73, 73, 1);">BBD$ ' .
+                                    $row["Price"] .
+                                    "</h4>";
+                                echo '<div id="addToCart"><img src="images/addToCart.svg"></div>';
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</a>";
+                            }
                         }
                         ?>
                     </div>
                 </div>
+
 
                 <div id="pizza" class="menuSection" style="display:none;">
                     <div id="menuHeader">
@@ -240,31 +253,34 @@ include ("dbConn.php");
                             echo "Error: " . $mysqli->error;
                         } else {
                             // Iterate through the result set
-                            while ($row = $result->fetch_assoc()) { ?>
-                                <div id="menuItem">
-                                    <div id="menuItemImg">
-                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
-                                            alt="<?php echo $row['Name']; ?>">
-                                    </div>
-
-                                    <div id="menuItemInfo">
-                                        <h3>
-                                            <?php echo $row["Name"]; ?>
-                                        </h3>
-
-                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
-                                            <?php echo $row['Price']; ?>
-                                        </h4>
-
-                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
-                                    </div>
-                                </div>
-                            <?php }
+                            while ($row = $result->fetch_assoc()) {
+                                // Generate links for each menu item
+                                $encodedName = urlencode($row["Name"]);
+                                echo '<a href="menuItemDetails.php?Name=' . $encodedName . '">';
+                                echo '<div id="menuItem">';
+                                echo '<div id="menuItemImg">';
+                                echo '<img src="data:image/jpeg;base64, ' .
+                                    $row["Image"] .
+                                    '" alt="' .
+                                    $row["Name"] .
+                                    '">';
+                                echo "</div>";
+                                echo '<div id="menuItemInfo">';
+                                echo "<h3>" . $row["Name"] . "</h3>";
+                                echo '<h4 style="color: rgba(73, 73, 73, 1);">BBD$ ' .
+                                    $row["Price"] .
+                                    "</h4>";
+                                echo '<div id="addToCart"><img src="images/addToCart.svg"></div>';
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</a>";
+                            }
                         }
                         ?>
                     </div>
                 </div>
 
+                <!--PRESERVES AINT WORKING IDK WHY-->
                 <div id="preserve" class="menuSection" style="display:none;">
                     <div id="menuHeader">
                         <h2>PRESERVES</h2>
@@ -272,34 +288,38 @@ include ("dbConn.php");
                     </div>
                     <div id="items">
                         <?php
-                        $query = "SELECT * FROM fooditem WHERE Category = 'preserves'";
+                        $query =
+                            "SELECT * FROM fooditem WHERE Category = 'preserve'";
                         $result = $conn->query($query);
-
                         // Check if query executed successfully
                         if (!$result) {
                             echo "Error: " . $mysqli->error;
                         } else {
                             // Iterate through the result set
-                            while ($row = $result->fetch_assoc()) { ?>
-                                <div id="menuItem">
-                                    <div id="menuItemImg">
-                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
-                                            alt="<?php echo $row['Name']; ?>">
-                                    </div>
-
-                                    <div id="menuItemInfo">
-                                        <h3>
-                                            <?php echo $row["Name"]; ?>
-                                        </h3>
-
-                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
-                                            <?php echo $row['Price']; ?>
-                                        </h4>
-
-                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
-                                    </div>
-                                </div>
-                            <?php }
+                            while ($row = $result->fetch_assoc()) {
+                                // Generate links for each menu item
+                                $encodedName = urlencode($row["Name"]);
+                                echo '<a href="menuItemDetails.php?Name=' .
+                                    $encodedName .
+                                    '">';
+                                echo '<div id="menuItem">';
+                                echo '<div id="menuItemImg">';
+                                echo '<img src="data:image/jpeg;base64, ' .
+                                    $row["Image"] .
+                                    '" alt="' .
+                                    $row["Name"] .
+                                    '">';
+                                echo "</div>";
+                                echo '<div id="menuItemInfo">';
+                                echo "<h3>" . $row["Name"] . "</h3>";
+                                echo '<h4 style="color: rgba(73, 73, 73, 1);">BBD$ ' .
+                                    $row["Price"] .
+                                    "</h4>";
+                                echo '<div id="addToCart"><img src="images/addToCart.svg"></div>';
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</a>";
+                            }
                         }
                         ?>
                     </div>
@@ -312,7 +332,8 @@ include ("dbConn.php");
                     </div>
                     <div id="items">
                         <?php
-                        $query = "SELECT * FROM fooditem WHERE Category = 'condiment'";
+                        $query =
+                            "SELECT * FROM fooditem WHERE Category = 'condiment'";
                         $result = $conn->query($query);
 
                         // Check if query executed successfully
@@ -320,26 +341,30 @@ include ("dbConn.php");
                             echo "Error: " . $mysqli->error;
                         } else {
                             // Iterate through the result set
-                            while ($row = $result->fetch_assoc()) { ?>
-                                <div id="menuItem">
-                                    <div id="menuItemImg">
-                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
-                                            alt="<?php echo $row['Name']; ?>">
-                                    </div>
-
-                                    <div id="menuItemInfo">
-                                        <h3>
-                                            <?php echo $row["Name"]; ?>
-                                        </h3>
-
-                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
-                                            <?php echo $row['Price']; ?>
-                                        </h4>
-
-                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
-                                    </div>
-                                </div>
-                            <?php }
+                            while ($row = $result->fetch_assoc()) {
+                                // Generate links for each menu item
+                                $encodedName = urlencode($row["Name"]);
+                                echo '<a href="menuItemDetails.php?Name=' .
+                                    $encodedName .
+                                    '">';
+                                echo '<div id="menuItem">';
+                                echo '<div id="menuItemImg">';
+                                echo '<img src="data:image/jpeg;base64, ' .
+                                    $row["Image"] .
+                                    '" alt="' .
+                                    $row["Name"] .
+                                    '">';
+                                echo "</div>";
+                                echo '<div id="menuItemInfo">';
+                                echo "<h3>" . $row["Name"] . "</h3>";
+                                echo '<h4 style="color: rgba(73, 73, 73, 1);">BBD$ ' .
+                                    $row["Price"] .
+                                    "</h4>";
+                                echo '<div id="addToCart"><img src="images/addToCart.svg"></div>';
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</a>";
+                            }
                         }
                         ?>
                     </div>
@@ -352,7 +377,8 @@ include ("dbConn.php");
                     </div>
                     <div id="items">
                         <?php
-                        $query = "SELECT * FROM fooditem WHERE Category = 'drink'";
+                        $query =
+                            "SELECT * FROM fooditem WHERE Category = 'drink'";
                         $result = $conn->query($query);
 
                         // Check if query executed successfully
@@ -360,26 +386,30 @@ include ("dbConn.php");
                             echo "Error: " . $mysqli->error;
                         } else {
                             // Iterate through the result set
-                            while ($row = $result->fetch_assoc()) { ?>
-                                <div id="menuItem">
-                                    <div id="menuItemImg">
-                                        <img src="data:image/jpeg;base64, <?php echo $row['Image']; ?>"
-                                            alt="<?php echo $row['Name']; ?>">
-                                    </div>
-
-                                    <div id="menuItemInfo">
-                                        <h3>
-                                            <?php echo $row["Name"]; ?>
-                                        </h3>
-
-                                        <h4 style="color: rgba(73, 73, 73, 1);">BBD$
-                                            <?php echo $row['Price']; ?>
-                                        </h4>
-
-                                        <div id="addToCart"><img src="images/addToCart.svg"></div>
-                                    </div>
-                                </div>
-                            <?php }
+                            while ($row = $result->fetch_assoc()) {
+                                // Generate links for each menu item
+                                $encodedName = urlencode($row["Name"]);
+                                echo '<a href="menuItemDetails.php?Name=' .
+                                    $encodedName .
+                                    '">';
+                                echo '<div id="menuItem">';
+                                echo '<div id="menuItemImg">';
+                                echo '<img src="data:image/jpeg;base64, ' .
+                                    $row["Image"] .
+                                    '" alt="' .
+                                    $row["Name"] .
+                                    '">';
+                                echo "</div>";
+                                echo '<div id="menuItemInfo">';
+                                echo "<h3>" . $row["Name"] . "</h3>";
+                                echo '<h4 style="color: rgba(73, 73, 73, 1);">BBD$ ' .
+                                    $row["Price"] .
+                                    "</h4>";
+                                echo '<div id="addToCart"><img src="images/addToCart.svg"></div>';
+                                echo "</div>";
+                                echo "</div>";
+                                echo "</a>";
+                            }
                         }
                         ?>
                     </div>
